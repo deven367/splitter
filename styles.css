@@ -500,6 +500,51 @@ select:focus {
     display: none !important;
 }
 
+/* Sync Indicator */
+.sync-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1000;
+}
+
+.sync-indicator.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.sync-indicator.syncing {
+    background: #cce5ff;
+    color: #004085;
+    animation: pulse 1s infinite;
+}
+
+.sync-indicator.synced {
+    background: #d4edda;
+    color: #155724;
+}
+
+.sync-indicator.error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.sync-indicator.local {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .main-grid {

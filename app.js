@@ -10,6 +10,12 @@ let members = [];
 let expenses = [];
 let currentSha = null; // SHA of current data.json for updates
 
+// Sync Queue - for batching commits
+let syncQueue = [];
+let syncTimeout = null;
+let isSyncing = false;
+const SYNC_DELAY = 3000; // Wait 3 seconds before committing (batches rapid changes)
+
 // Initialize
 async function init() {
     await loadData();
@@ -172,6 +178,103 @@ async function commitToGitHub(data, message) {
     localStorage.setItem('splitter_expenses', JSON.stringify(data.expenses));
 }
 
+// Queue a sync operation (batches multiple rapid changes)
+function queueSync(message) {
+    syncQueue.push(message);
+    
+    // Update localStorage immediately (fast!)
+    localStorage.setItem('splitter_members', JSON.stringify(members));
+    localStorage.setItem('splitter_expenses', JSON.stringify(expenses));
+    
+    // Show syncing indicator
+    updateSyncStatus('pending');
+    
+    // Clear existing timeout
+    if (syncTimeout) {
+        clearTimeout(syncTimeout);
+    }
+    
+    // Set new timeout - wait for more changes before committing
+    syncTimeout = setTimeout(() => {
+        performSync();
+    }, SYNC_DELAY);
+}
+
+// Actually perform the sync to GitHub
+async function performSync() {
+    if (isSyncing || syncQueue.length === 0) return;
+    
+    const { token, repo } = githubConfig;
+    if (!token || !repo) {
+        syncQueue = [];
+        updateSyncStatus('local');
+        return;
+    }
+    
+    isSyncing = true;
+    updateSyncStatus('syncing');
+    
+    // Combine all messages
+    const messages = syncQueue.slice();
+    syncQueue = [];
+    
+    const commitMessage = messages.length === 1 
+        ? messages[0] 
+        : `Batch update (${messages.length} changes):\n- ${messages.join('\n- ')}`;
+    
+    try {
+        await commitToGitHub({ members, expenses }, commitMessage);
+        updateSyncStatus('synced');
+    } catch (error) {
+        console.error('Sync failed:', error);
+        updateSyncStatus('error');
+        // Re-queue failed items
+        syncQueue = [...messages, ...syncQueue];
+    }
+    
+    isSyncing = false;
+    
+    // If more items queued during sync, process them
+    if (syncQueue.length > 0) {
+        syncTimeout = setTimeout(performSync, SYNC_DELAY);
+    }
+}
+
+// Update sync status indicator
+function updateSyncStatus(status) {
+    let indicator = document.getElementById('syncIndicator');
+    
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.id = 'syncIndicator';
+        indicator.className = 'sync-indicator';
+        document.body.appendChild(indicator);
+    }
+    
+    const statuses = {
+        'pending': { text: '⏳ Pending...', class: 'pending' },
+        'syncing': { text: '🔄 Syncing...', class: 'syncing' },
+        'synced': { text: '✅ Synced', class: 'synced' },
+        'error': { text: '❌ Sync failed', class: 'error' },
+        'local': { text: '💾 Local only', class: 'local' }
+    };
+    
+    const s = statuses[status] || statuses['local'];
+    indicator.textContent = s.text;
+    indicator.className = `sync-indicator ${s.class}`;
+    
+    // Hide "synced" status after 2 seconds
+    if (status === 'synced') {
+        setTimeout(() => {
+            if (indicator.textContent === '✅ Synced') {
+                indicator.style.opacity = '0';
+            }
+        }, 2000);
+    } else {
+        indicator.style.opacity = '1';
+    }
+}
+
 async function syncFromGitHub() {
     if (!githubConfig.token || !githubConfig.repo) {
         showSettings();
@@ -211,19 +314,13 @@ async function addMember() {
         return;
     }
     
+    // Optimistic update - instant UI
     members.push(name);
     input.value = '';
-    
-    try {
-        await commitToGitHub(
-            { members, expenses },
-            `Add member: ${name}`
-        );
-    } catch (error) {
-        console.error('GitHub commit failed:', error);
-    }
-    
     renderAll();
+    
+    // Queue sync in background
+    queueSync(`Add member: ${name}`);
 }
 
 // Remove Member
@@ -237,18 +334,12 @@ async function removeMember(name) {
         expenses = expenses.filter(e => e.paidBy !== name && !e.splitBetween.includes(name));
     }
     
+    // Optimistic update - instant UI
     members = members.filter(m => m !== name);
-    
-    try {
-        await commitToGitHub(
-            { members, expenses },
-            `Remove member: ${name}`
-        );
-    } catch (error) {
-        console.error('GitHub commit failed:', error);
-    }
-    
     renderAll();
+    
+    // Queue sync in background
+    queueSync(`Remove member: ${name}`);
 }
 
 // Toggle Custom Split Section
@@ -328,24 +419,19 @@ async function addExpense() {
         date: new Date().toISOString()
     };
     
+    // Optimistic update - instant UI
     expenses.unshift(expense);
     
-    try {
-        await commitToGitHub(
-            { members, expenses },
-            `Add expense: ${description} ($${amount.toFixed(2)}) paid by ${paidBy}`
-        );
-    } catch (error) {
-        console.error('GitHub commit failed:', error);
-    }
-    
-    // Clear form
+    // Clear form immediately
     document.getElementById('expenseDescription').value = '';
     document.getElementById('expenseAmount').value = '';
     document.getElementById('splitType').value = 'equal';
     document.getElementById('customSplitSection').classList.add('hidden');
     
     renderAll();
+    
+    // Queue sync in background
+    queueSync(`Add expense: ${description} ($${amount.toFixed(2)}) paid by ${paidBy}`);
 }
 
 // Delete Expense
@@ -353,18 +439,13 @@ async function deleteExpense(id) {
     if (!confirm('Delete this expense?')) return;
     
     const expense = expenses.find(e => e.id === id);
+    
+    // Optimistic update - instant UI
     expenses = expenses.filter(e => e.id !== id);
-    
-    try {
-        await commitToGitHub(
-            { members, expenses },
-            `Delete expense: ${expense?.description || 'Unknown'}`
-        );
-    } catch (error) {
-        console.error('GitHub commit failed:', error);
-    }
-    
     renderAll();
+    
+    // Queue sync in background
+    queueSync(`Delete expense: ${expense?.description || 'Unknown'}`);
 }
 
 // Calculate Balances
@@ -578,22 +659,15 @@ function exportToExcel() {
 async function clearAllData() {
     if (!confirm('Clear all data? This cannot be undone.')) return;
     
+    // Optimistic update - instant UI
     members = [];
     expenses = [];
-    
-    try {
-        await commitToGitHub(
-            { members, expenses },
-            'Clear all data'
-        );
-    } catch (error) {
-        console.error('GitHub commit failed:', error);
-    }
-    
     localStorage.removeItem('splitter_members');
     localStorage.removeItem('splitter_expenses');
-    
     renderAll();
+    
+    // Queue sync in background
+    queueSync('Clear all data');
 }
 
 // Enter key handler
