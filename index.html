@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splitter - Expense Sharing Made Simple</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Splitter</h1>
+            <button onclick="showSettings()" class="settings-btn">⚙️</button>
+        </header>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>⚙️ GitHub Settings</h2>
+                <p class="modal-info">Connect to GitHub to sync your expenses across devices.</p>
+                <div class="form-row">
+                    <label>GitHub Token</label>
+                    <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx" />
+                </div>
+                <div class="form-row">
+                    <label>Repository (owner/repo)</label>
+                    <input type="text" id="githubRepo" placeholder="username/splitter" />
+                </div>
+                <div class="form-row">
+                    <label>Branch</label>
+                    <input type="text" id="githubBranch" value="main" />
+                </div>
+                <div class="modal-buttons">
+                    <button onclick="saveSettings()" class="btn btn-primary">Save & Connect</button>
+                    <button onclick="hideSettings()" class="btn btn-secondary">Cancel</button>
+                </div>
+                <div id="connectionStatus" class="connection-status"></div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Left Column: Input -->
+            <div class="left-column">
+                <!-- Group Management -->
+                <section class="card card-compact">
+                    <h2>👥 Members</h2>
+                    <div class="input-group">
+                        <input type="text" id="memberName" placeholder="Add member..." />
+                        <button onclick="addMember()" class="btn btn-primary btn-small">+</button>
+                    </div>
+                    <div id="membersList" class="members-list"></div>
+                </section>
+
+                <!-- Add Expense -->
+                <section class="card">
+                    <h2>➕ Add Expense</h2>
+                    <div class="expense-form">
+                        <div class="form-row-inline">
+                            <div class="form-field">
+                                <label>Description</label>
+                                <input type="text" id="expenseDescription" placeholder="e.g., Dinner" />
+                            </div>
+                            <div class="form-field form-field-small">
+                                <label>Amount</label>
+                                <input type="number" id="expenseAmount" placeholder="0.00" step="0.01" min="0" />
+                            </div>
+                        </div>
+                        <div class="form-row-inline">
+                            <div class="form-field">
+                                <label>Paid by</label>
+                                <select id="paidBy"></select>
+                            </div>
+                            <div class="form-field">
+                                <label>Split Type</label>
+                                <select id="splitType" onchange="toggleCustomSplit()">
+                                    <option value="equal">Equal</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label>Split between</label>
+                            <div id="splitBetween" class="checkbox-group"></div>
+                        </div>
+                        <div id="customSplitSection" class="form-row hidden">
+                            <label>Custom Amounts</label>
+                            <div id="customSplitInputs" class="custom-split-grid"></div>
+                        </div>
+                        <button onclick="addExpense()" class="btn btn-primary btn-full">Add Expense</button>
+                    </div>
+                </section>
+
+                <!-- Export -->
+                <section class="card card-compact">
+                    <div class="export-buttons">
+                        <button onclick="exportToExcel()" class="btn btn-success btn-small">📊 Export Excel</button>
+                        <button onclick="syncFromGitHub()" class="btn btn-primary btn-small">🔄 Sync</button>
+                        <button onclick="clearAllData()" class="btn btn-danger btn-small">🗑️ Clear</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Results -->
+            <div class="right-column">
+                <!-- Balance & Settlement Summary -->
+                <section class="card">
+                    <div class="summary-tabs">
+                        <button class="tab-btn active" onclick="showTab('balances')">⚖️ Balances</button>
+                        <button class="tab-btn" onclick="showTab('settlements')">💸 Settle Up</button>
+                    </div>
+                    <div id="balancesTab" class="tab-content active">
+                        <div id="balancesSummary" class="balances-list">
+                            <p class="empty-state">Add members and expenses to see balances.</p>
+                        </div>
+                    </div>
+                    <div id="settlementsTab" class="tab-content">
+                        <div id="settlements" class="settlements-list">
+                            <p class="empty-state">Add expenses to see settlements.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Expenses List -->
+                <section class="card">
+                    <h2>📋 Expenses <span id="totalBadge" class="total-badge"></span></h2>
+                    <div id="expensesList" class="expenses-list">
+                        <p class="empty-state">No expenses yet.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
