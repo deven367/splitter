@@ -2,7 +2,9 @@
 let githubConfig = {
     token: localStorage.getItem('github_token') || '',
     repo: localStorage.getItem('github_repo') || '',
-    branch: localStorage.getItem('github_branch') || 'main'
+    branch: localStorage.getItem('github_branch') || 'main',
+    botName: localStorage.getItem('github_bot_name') || 'Splitter Bot',
+    botEmail: localStorage.getItem('github_bot_email') || 'splitter-bot@users.noreply.github.com'
 };
 
 // Data Store
@@ -28,6 +30,8 @@ function showSettings() {
     document.getElementById('githubToken').value = githubConfig.token;
     document.getElementById('githubRepo').value = githubConfig.repo;
     document.getElementById('githubBranch').value = githubConfig.branch;
+    document.getElementById('botName').value = githubConfig.botName;
+    document.getElementById('botEmail').value = githubConfig.botEmail;
 }
 
 function hideSettings() {
@@ -40,12 +44,16 @@ async function saveSettings() {
     const token = document.getElementById('githubToken').value.trim();
     const repo = document.getElementById('githubRepo').value.trim();
     const branch = document.getElementById('githubBranch').value.trim() || 'main';
+    const botName = document.getElementById('botName').value.trim() || 'Splitter Bot';
+    const botEmail = document.getElementById('botEmail').value.trim() || 'splitter-bot@users.noreply.github.com';
     
-    githubConfig = { token, repo, branch };
+    githubConfig = { token, repo, branch, botName, botEmail };
     
     localStorage.setItem('github_token', token);
     localStorage.setItem('github_repo', repo);
     localStorage.setItem('github_branch', branch);
+    localStorage.setItem('github_bot_name', botName);
+    localStorage.setItem('github_bot_email', botEmail);
     
     const status = document.getElementById('connectionStatus');
     
@@ -131,7 +139,7 @@ async function loadFromGitHub() {
 }
 
 async function commitToGitHub(data, message) {
-    const { token, repo, branch } = githubConfig;
+    const { token, repo, branch, botName, botEmail } = githubConfig;
     
     if (!token || !repo) {
         // Not configured, just use localStorage
@@ -145,7 +153,15 @@ async function commitToGitHub(data, message) {
     const body = {
         message,
         content,
-        branch
+        branch,
+        committer: {
+            name: botName,
+            email: botEmail
+        },
+        author: {
+            name: botName,
+            email: botEmail
+        }
     };
     
     if (currentSha) {

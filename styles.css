@@ -116,6 +116,12 @@ header {
     display: none;
 }
 
+.settings-divider {
+    height: 1px;
+    background: #e1e5eb;
+    margin: 16px 0;
+}
+
 /* Main Grid Layout */
 .main-grid {
     display: grid;

@@ -30,6 +30,16 @@
                     <label>Branch</label>
                     <input type="text" id="githubBranch" value="main" />
                 </div>
+                <div class="settings-divider"></div>
+                <p class="modal-info">🤖 Bot Identity (for commits)</p>
+                <div class="form-row">
+                    <label>Bot Name</label>
+                    <input type="text" id="botName" placeholder="Splitter Bot" value="Splitter Bot" />
+                </div>
+                <div class="form-row">
+                    <label>Bot Email</label>
+                    <input type="text" id="botEmail" placeholder="bot@example.com" value="splitter-bot@users.noreply.github.com" />
+                </div>
                 <div class="modal-buttons">
                     <button onclick="saveSettings()" class="btn btn-primary">Save & Connect</button>
                     <button onclick="hideSettings()" class="btn btn-secondary">Cancel</button>
