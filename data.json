@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1768107094119,
+      "description": "ad",
+      "amount": 12,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 6,
+        "Rahul": 6
+      },
+      "date": "2026-01-11T04:51:34.119Z"
+    },
+    {
       "id": 1768107088220,
       "description": "d",
       "amount": 1,
