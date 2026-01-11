@@ -6,23 +6,6 @@
   ],
   "expenses": [
     {
-      "id": 1768153562204,
-      "description": "dinner",
-      "amount": 60,
-      "paidBy": "Rahul",
-      "splitBetween": [
-        "Deven",
-        "Rahul",
-        "Foo stranger"
-      ],
-      "splits": {
-        "Deven": 20,
-        "Rahul": 20,
-        "Foo stranger": 20
-      },
-      "date": "2026-01-11T17:46:02.204Z"
-    },
-    {
       "id": 1768107150820,
       "description": "dsd",
       "amount": 324,
