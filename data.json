@@ -3,5 +3,21 @@
     "Deven",
     "Rahul"
   ],
-  "expenses": []
+  "expenses": [
+    {
+      "id": 1768265495272,
+      "description": "Water (for Dec 25)",
+      "amount": 60,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 30,
+        "Rahul": 30
+      },
+      "date": "2026-01-13T00:51:35.272Z"
+    }
+  ]
 }
