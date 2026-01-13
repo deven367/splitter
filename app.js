@@ -5,10 +5,15 @@ let githubConfig = {
     branch: localStorage.getItem('github_branch') || 'main'
 };
 
+// Groups
+let groups = ['default'];
+let currentGroup = localStorage.getItem('splitter_current_group') || 'default';
+let groupsSha = null; // SHA for groups.json
+
 // Data Store
 let members = [];
 let expenses = [];
-let currentSha = null; // SHA of current data.json for updates
+let currentSha = null; // SHA of current group's data file
 
 // Sync Queue - for batching commits
 let syncQueue = [];
@@ -16,9 +21,19 @@ let syncTimeout = null;
 let isSyncing = false;
 const SYNC_DELAY = 3000; // Wait 3 seconds before committing (batches rapid changes)
 
+// Get data filename for a group
+function getDataFilename(groupName) {
+    if (groupName === 'default') return 'data.json';
+    // Sanitize group name for filename
+    const safeName = groupName.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    return `data_${safeName}.json`;
+}
+
 // Initialize
 async function init() {
+    await loadGroups();
     await loadData();
+    renderGroups();
     renderAll();
 }
 
@@ -59,17 +74,263 @@ async function saveSettings() {
         status.innerHTML = '⏳ Connecting...';
         status.className = 'connection-status';
         
+        await loadGroups();
         await loadFromGitHub();
         
         status.className = 'connection-status success';
         status.innerHTML = '✅ Connected! Data loaded from GitHub.';
         
+        renderGroups();
         renderAll();
         
         setTimeout(() => hideSettings(), 1500);
     } catch (error) {
         status.className = 'connection-status error';
         status.innerHTML = `❌ ${error.message}`;
+    }
+}
+
+// Groups Management
+async function loadGroups() {
+    const { token, repo, branch } = githubConfig;
+    
+    if (!token || !repo) {
+        // Load from localStorage
+        const savedGroups = localStorage.getItem('splitter_groups');
+        if (savedGroups) groups = JSON.parse(savedGroups);
+        return;
+    }
+    
+    try {
+        const response = await fetch(
+            `https://api.github.com/repos/${repo}/contents/groups.json?ref=${branch}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            }
+        );
+        
+        if (response.status === 404) {
+            // Initialize groups.json
+            groups = ['default'];
+            await saveGroupsToGitHub();
+            return;
+        }
+        
+        if (!response.ok) throw new Error('Failed to load groups');
+        
+        const data = await response.json();
+        groupsSha = data.sha;
+        groups = JSON.parse(atob(data.content));
+        localStorage.setItem('splitter_groups', JSON.stringify(groups));
+    } catch (error) {
+        console.error('Failed to load groups:', error);
+        const savedGroups = localStorage.getItem('splitter_groups');
+        if (savedGroups) groups = JSON.parse(savedGroups);
+    }
+}
+
+async function saveGroupsToGitHub() {
+    const { token, repo, branch } = githubConfig;
+    
+    if (!token || !repo) {
+        localStorage.setItem('splitter_groups', JSON.stringify(groups));
+        return;
+    }
+    
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(groups, null, 2))));
+    
+    const body = {
+        message: 'Update groups',
+        content,
+        branch
+    };
+    
+    if (groupsSha) body.sha = groupsSha;
+    
+    const response = await fetch(
+        `https://api.github.com/repos/${repo}/contents/groups.json`,
+        {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }
+    );
+    
+    if (!response.ok) throw new Error('Failed to save groups');
+    
+    const result = await response.json();
+    groupsSha = result.content.sha;
+    localStorage.setItem('splitter_groups', JSON.stringify(groups));
+}
+
+function showGroupModal() {
+    document.getElementById('groupModal').classList.remove('hidden');
+    renderGroupsList();
+}
+
+function hideGroupModal() {
+    document.getElementById('groupModal').classList.add('hidden');
+    document.getElementById('newGroupName').value = '';
+}
+
+function renderGroups() {
+    const select = document.getElementById('groupSelect');
+    select.innerHTML = groups.map(g => 
+        `<option value="${g}" ${g === currentGroup ? 'selected' : ''}>${g === 'default' ? 'Default Group' : g}</option>`
+    ).join('');
+}
+
+function renderGroupsList() {
+    const container = document.getElementById('groupsList');
+    
+    if (groups.length === 0) {
+        container.innerHTML = '<p class="groups-empty">No groups yet.</p>';
+        return;
+    }
+    
+    container.innerHTML = groups.map(g => `
+        <div class="group-item">
+            <span class="group-name">${g === 'default' ? 'Default Group' : g}</span>
+            <div class="group-actions">
+                <button class="select-btn" onclick="selectGroup('${g}')">Select</button>
+                ${g !== 'default' ? `<button class="delete-btn" onclick="deleteGroup('${g}')">Delete</button>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+async function createGroup() {
+    const input = document.getElementById('newGroupName');
+    const name = input.value.trim();
+    
+    if (!name) {
+        alert('Please enter a group name');
+        return;
+    }
+    
+    if (groups.includes(name)) {
+        alert('A group with this name already exists');
+        return;
+    }
+    
+    groups.push(name);
+    
+    try {
+        await saveGroupsToGitHub();
+        renderGroups();
+        renderGroupsList();
+        input.value = '';
+        
+        // Ask if user wants to switch to new group
+        if (confirm(`Group "${name}" created! Switch to it now?`)) {
+            await selectGroup(name);
+        }
+    } catch (error) {
+        alert('Failed to create group: ' + error.message);
+        groups = groups.filter(g => g !== name);
+    }
+}
+
+async function selectGroup(name) {
+    if (name === currentGroup) {
+        hideGroupModal();
+        return;
+    }
+    
+    currentGroup = name;
+    localStorage.setItem('splitter_current_group', name);
+    currentSha = null; // Reset SHA for new group
+    
+    await loadData();
+    renderGroups();
+    renderAll();
+    hideGroupModal();
+}
+
+async function switchGroup() {
+    const select = document.getElementById('groupSelect');
+    await selectGroup(select.value);
+}
+
+async function deleteGroup(name) {
+    if (name === 'default') {
+        alert('Cannot delete the default group');
+        return;
+    }
+    
+    if (!confirm(`Delete group "${name}"? This will also delete all expenses in this group.`)) {
+        return;
+    }
+    
+    try {
+        // Delete the group's data file from GitHub
+        await deleteGroupDataFile(name);
+        
+        // Remove from groups list
+        groups = groups.filter(g => g !== name);
+        await saveGroupsToGitHub();
+        
+        // If current group was deleted, switch to default
+        if (currentGroup === name) {
+            await selectGroup('default');
+        }
+        
+        renderGroups();
+        renderGroupsList();
+    } catch (error) {
+        alert('Failed to delete group: ' + error.message);
+    }
+}
+
+async function deleteGroupDataFile(groupName) {
+    const { token, repo, branch } = githubConfig;
+    
+    if (!token || !repo) return;
+    
+    const filename = getDataFilename(groupName);
+    
+    // Get current SHA
+    try {
+        const response = await fetch(
+            `https://api.github.com/repos/${repo}/contents/${filename}?ref=${branch}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            }
+        );
+        
+        if (response.status === 404) return; // File doesn't exist
+        
+        const data = await response.json();
+        
+        // Delete the file
+        await fetch(
+            `https://api.github.com/repos/${repo}/contents/${filename}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Delete group: ${groupName}`,
+                    sha: data.sha,
+                    branch
+                })
+            }
+        );
+    } catch (error) {
+        console.error('Failed to delete group data file:', error);
     }
 }
 
@@ -85,19 +346,23 @@ async function loadData() {
         }
     }
     
-    // Fallback to localStorage
-    const savedMembers = localStorage.getItem('splitter_members');
-    const savedExpenses = localStorage.getItem('splitter_expenses');
+    // Fallback to localStorage (group-specific)
+    const storageKey = `splitter_${currentGroup}`;
+    const savedMembers = localStorage.getItem(`${storageKey}_members`);
+    const savedExpenses = localStorage.getItem(`${storageKey}_expenses`);
     if (savedMembers) members = JSON.parse(savedMembers);
+    else members = [];
     if (savedExpenses) expenses = JSON.parse(savedExpenses);
+    else expenses = [];
 }
 
 // GitHub API Functions
 async function loadFromGitHub() {
     const { token, repo, branch } = githubConfig;
+    const filename = getDataFilename(currentGroup);
     
     const response = await fetch(
-        `https://api.github.com/repos/${repo}/contents/data.json?ref=${branch}`,
+        `https://api.github.com/repos/${repo}/contents/${filename}?ref=${branch}`,
         {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -108,7 +373,7 @@ async function loadFromGitHub() {
     
     if (response.status === 404) {
         // File doesn't exist, create it
-        await commitToGitHub({ members: [], expenses: [] }, 'Initialize data.json');
+        await commitToGitHub({ members: [], expenses: [] }, `Initialize ${filename}`);
         members = [];
         expenses = [];
         return;
@@ -125,18 +390,21 @@ async function loadFromGitHub() {
     members = content.members || [];
     expenses = content.expenses || [];
     
-    // Also save to localStorage as backup
-    localStorage.setItem('splitter_members', JSON.stringify(members));
-    localStorage.setItem('splitter_expenses', JSON.stringify(expenses));
+    // Also save to localStorage as backup (group-specific)
+    const storageKey = `splitter_${currentGroup}`;
+    localStorage.setItem(`${storageKey}_members`, JSON.stringify(members));
+    localStorage.setItem(`${storageKey}_expenses`, JSON.stringify(expenses));
 }
 
 async function commitToGitHub(data, message) {
     const { token, repo, branch } = githubConfig;
+    const filename = getDataFilename(currentGroup);
+    const storageKey = `splitter_${currentGroup}`;
     
     if (!token || !repo) {
         // Not configured, just use localStorage
-        localStorage.setItem('splitter_members', JSON.stringify(data.members));
-        localStorage.setItem('splitter_expenses', JSON.stringify(data.expenses));
+        localStorage.setItem(`${storageKey}_members`, JSON.stringify(data.members));
+        localStorage.setItem(`${storageKey}_expenses`, JSON.stringify(data.expenses));
         return;
     }
     
@@ -153,7 +421,7 @@ async function commitToGitHub(data, message) {
     }
     
     const response = await fetch(
-        `https://api.github.com/repos/${repo}/contents/data.json`,
+        `https://api.github.com/repos/${repo}/contents/${filename}`,
         {
             method: 'PUT',
             headers: {
@@ -174,17 +442,18 @@ async function commitToGitHub(data, message) {
     currentSha = result.content.sha;
     
     // Also update localStorage
-    localStorage.setItem('splitter_members', JSON.stringify(data.members));
-    localStorage.setItem('splitter_expenses', JSON.stringify(data.expenses));
+    localStorage.setItem(`${storageKey}_members`, JSON.stringify(data.members));
+    localStorage.setItem(`${storageKey}_expenses`, JSON.stringify(data.expenses));
 }
 
 // Queue a sync operation (batches multiple rapid changes)
 function queueSync(message) {
     syncQueue.push(message);
     
-    // Update localStorage immediately (fast!)
-    localStorage.setItem('splitter_members', JSON.stringify(members));
-    localStorage.setItem('splitter_expenses', JSON.stringify(expenses));
+    // Update localStorage immediately (fast!) - group-specific
+    const storageKey = `splitter_${currentGroup}`;
+    localStorage.setItem(`${storageKey}_members`, JSON.stringify(members));
+    localStorage.setItem(`${storageKey}_expenses`, JSON.stringify(expenses));
     
     // Show syncing indicator
     updateSyncStatus('pending');
@@ -657,13 +926,14 @@ function exportToExcel() {
 
 // Clear All Data
 async function clearAllData() {
-    if (!confirm('Clear all data? This cannot be undone.')) return;
+    if (!confirm(`Clear all data for "${currentGroup === 'default' ? 'Default Group' : currentGroup}"? This cannot be undone.`)) return;
     
     // Optimistic update - instant UI
     members = [];
     expenses = [];
-    localStorage.removeItem('splitter_members');
-    localStorage.removeItem('splitter_expenses');
+    const storageKey = `splitter_${currentGroup}`;
+    localStorage.removeItem(`${storageKey}_members`);
+    localStorage.removeItem(`${storageKey}_expenses`);
     renderAll();
     
     // Queue sync in background
@@ -675,9 +945,17 @@ document.getElementById('memberName').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') addMember();
 });
 
+document.getElementById('newGroupName').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') createGroup();
+});
+
 // Close modal on outside click
 document.getElementById('settingsModal').addEventListener('click', function(e) {
     if (e.target === this) hideSettings();
+});
+
+document.getElementById('groupModal').addEventListener('click', function(e) {
+    if (e.target === this) hideGroupModal();
 });
 
 // Initialize

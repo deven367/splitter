@@ -11,7 +11,15 @@
     <div class="container">
         <header>
             <h1>💰 Splitter</h1>
-            <button onclick="showSettings()" class="settings-btn">⚙️</button>
+            <div class="header-controls">
+                <div class="group-selector">
+                    <select id="groupSelect" onchange="switchGroup()">
+                        <option value="default">Default Group</option>
+                    </select>
+                    <button onclick="showGroupModal()" class="btn btn-small btn-secondary" title="Manage Groups">+ Group</button>
+                </div>
+                <button onclick="showSettings()" class="settings-btn">⚙️</button>
+            </div>
         </header>
 
         <!-- Settings Modal -->
@@ -36,6 +44,28 @@
                     <button onclick="hideSettings()" class="btn btn-secondary">Cancel</button>
                 </div>
                 <div id="connectionStatus" class="connection-status"></div>
+            </div>
+        </div>
+
+        <!-- Group Management Modal -->
+        <div id="groupModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>📁 Manage Groups</h2>
+                <p class="modal-info">Create expense groups for different trips, events, or roommates.</p>
+                <div class="form-row">
+                    <label>New Group Name</label>
+                    <div class="input-group">
+                        <input type="text" id="newGroupName" placeholder="e.g., Trip to Paris" />
+                        <button onclick="createGroup()" class="btn btn-primary btn-small">Create</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>Existing Groups</label>
+                    <div id="groupsList" class="groups-list"></div>
+                </div>
+                <div class="modal-buttons">
+                    <button onclick="hideGroupModal()" class="btn btn-secondary">Close</button>
+                </div>
             </div>
         </div>
 
