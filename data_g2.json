@@ -1,4 +1,6 @@
 {
-  "members": [],
+  "members": [
+    "mem1"
+  ],
   "expenses": []
 }
