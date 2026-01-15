@@ -21,11 +21,34 @@ let syncTimeout = null;
 let isSyncing = false;
 const SYNC_DELAY = 3000; // Wait 3 seconds before committing (batches rapid changes)
 
+// Constants
+const DEFAULT_GROUP_DISPLAY_NAME = 'Default Group';
+
+// Check if a filename base is a reserved name (Windows reserved device names)
+function isReservedFilename(baseName) {
+    const reserved = new Set([
+        'con', 'prn', 'aux', 'nul',
+        'com1', 'com2', 'com3', 'com4', 'com5', 'com6', 'com7', 'com8', 'com9',
+        'lpt1', 'lpt2', 'lpt3', 'lpt4', 'lpt5', 'lpt6', 'lpt7', 'lpt8', 'lpt9'
+    ]);
+    return reserved.has((baseName || '').toLowerCase());
+}
+
 // Get data filename for a group
 function getDataFilename(groupName) {
     if (groupName === 'default') return 'data.json';
     // Sanitize group name for filename
-    const safeName = groupName.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    let safeName = (groupName || '').toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    // Trim leading/trailing underscores
+    safeName = safeName.replace(/^_+|_+$/g, '');
+    // Ensure the sanitized name is not empty
+    if (!safeName) {
+        safeName = 'group';
+    }
+    // Avoid reserved filenames
+    if (isReservedFilename(safeName)) {
+        safeName = `group_${safeName}`;
+    }
     return `data_${safeName}.json`;
 }
 
@@ -140,7 +163,7 @@ async function saveGroupsToGitHub() {
         return;
     }
     
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(groups, null, 2))));
+    const content = btoa(encodeURIComponent(JSON.stringify(groups, null, 2)).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(parseInt(p1, 16))));
     
     const body = {
         message: 'Update groups',
@@ -182,28 +205,73 @@ function hideGroupModal() {
 
 function renderGroups() {
     const select = document.getElementById('groupSelect');
-    select.innerHTML = groups.map(g => 
-        `<option value="${g}" ${g === currentGroup ? 'selected' : ''}>${g === 'default' ? 'Default Group' : g}</option>`
-    ).join('');
+    
+    // Clear existing options
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
+    }
+
+    // Populate options safely using textContent
+    groups.forEach(g => {
+        const option = document.createElement('option');
+        option.value = g;
+        option.textContent = g === 'default' ? DEFAULT_GROUP_DISPLAY_NAME : g;
+        if (g === currentGroup) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    });
 }
 
 function renderGroupsList() {
     const container = document.getElementById('groupsList');
     
+    // Clear existing content
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+
     if (groups.length === 0) {
-        container.innerHTML = '<p class="groups-empty">No groups yet.</p>';
+        const emptyEl = document.createElement('p');
+        emptyEl.className = 'groups-empty';
+        emptyEl.textContent = 'No groups yet.';
+        container.appendChild(emptyEl);
         return;
     }
-    
-    container.innerHTML = groups.map(g => `
-        <div class="group-item">
-            <span class="group-name">${g === 'default' ? 'Default Group' : g}</span>
-            <div class="group-actions">
-                <button class="select-btn" onclick="selectGroup('${g}')">Select</button>
-                ${g !== 'default' ? `<button class="delete-btn" onclick="deleteGroup('${g}')">Delete</button>` : ''}
-            </div>
-        </div>
-    `).join('');
+
+    groups.forEach(g => {
+        const item = document.createElement('div');
+        item.className = 'group-item';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'group-name';
+        nameSpan.textContent = g === 'default' ? DEFAULT_GROUP_DISPLAY_NAME : g;
+        item.appendChild(nameSpan);
+
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'group-actions';
+
+        const selectBtn = document.createElement('button');
+        selectBtn.className = 'select-btn';
+        selectBtn.textContent = 'Select';
+        selectBtn.addEventListener('click', function () {
+            selectGroup(g);
+        });
+        actionsDiv.appendChild(selectBtn);
+
+        if (g !== 'default') {
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', function () {
+                deleteGroup(g);
+            });
+            actionsDiv.appendChild(deleteBtn);
+        }
+
+        item.appendChild(actionsDiv);
+        container.appendChild(item);
+    });
 }
 
 async function createGroup() {
@@ -215,7 +283,14 @@ async function createGroup() {
         return;
     }
     
-    if (groups.includes(name)) {
+    // Validate group name doesn't contain problematic characters
+    if (/[<>"'`]/.test(name)) {
+        alert('Group name cannot contain <, >, ", \', or ` characters');
+        return;
+    }
+    
+    // Case-insensitive duplicate check to prevent filename collisions
+    if (groups.some(g => g.toLowerCase() === name.toLowerCase())) {
         alert('A group with this name already exists');
         return;
     }
@@ -228,8 +303,10 @@ async function createGroup() {
         renderGroupsList();
         input.value = '';
         
+        // Sanitize name for display in confirmation
+        const safeName = name.replace(/[<>]/g, '');
         // Ask if user wants to switch to new group
-        if (confirm(`Group "${name}" created! Switch to it now?`)) {
+        if (confirm(`Group "${safeName}" created! Switch to it now?`)) {
             await selectGroup(name);
         }
     } catch (error) {
@@ -244,14 +321,25 @@ async function selectGroup(name) {
         return;
     }
     
+    const previousGroup = currentGroup;
+    const previousSha = currentSha;
+    
     currentGroup = name;
     localStorage.setItem('splitter_current_group', name);
     currentSha = null; // Reset SHA for new group
     
-    await loadData();
-    renderGroups();
-    renderAll();
-    hideGroupModal();
+    try {
+        await loadData();
+        renderGroups();
+        renderAll();
+        hideGroupModal();
+    } catch (error) {
+        // Revert to previous group on failure to avoid inconsistent state
+        currentGroup = previousGroup;
+        currentSha = previousSha;
+        localStorage.setItem('splitter_current_group', previousGroup);
+        alert('Failed to switch group: ' + error.message);
+    }
 }
 
 async function switchGroup() {
@@ -260,12 +348,13 @@ async function switchGroup() {
 }
 
 async function deleteGroup(name) {
+    const safeName = String(name).replace(/[<>]/g, '');
     if (name === 'default') {
         alert('Cannot delete the default group');
         return;
     }
     
-    if (!confirm(`Delete group "${name}"? This will also delete all expenses in this group.`)) {
+    if (!confirm(`Delete group "${safeName}"? This will also delete all expenses in this group.`)) {
         return;
     }
     
@@ -276,6 +365,11 @@ async function deleteGroup(name) {
         // Remove from groups list
         groups = groups.filter(g => g !== name);
         await saveGroupsToGitHub();
+        
+        // Clean up localStorage for deleted group
+        const storageKey = `splitter_${name}`;
+        localStorage.removeItem(`${storageKey}_members`);
+        localStorage.removeItem(`${storageKey}_expenses`);
         
         // If current group was deleted, switch to default
         if (currentGroup === name) {
@@ -408,7 +502,7 @@ async function commitToGitHub(data, message) {
         return;
     }
     
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    const content = btoa(encodeURIComponent(JSON.stringify(data, null, 2)).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(parseInt(p1, 16))));
     
     const body = {
         message,
@@ -926,7 +1020,8 @@ function exportToExcel() {
 
 // Clear All Data
 async function clearAllData() {
-    if (!confirm(`Clear all data for "${currentGroup === 'default' ? 'Default Group' : currentGroup}"? This cannot be undone.`)) return;
+    const safeName = currentGroup === 'default' ? DEFAULT_GROUP_DISPLAY_NAME : String(currentGroup).replace(/[<>]/g, '');
+    if (!confirm(`Clear all data for "${safeName}"? This cannot be undone.`)) return;
     
     // Optimistic update - instant UI
     members = [];
