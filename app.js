@@ -25,22 +25,38 @@ const SYNC_DELAY = 3000; // Wait 3 seconds before committing (batches rapid chan
 const DEFAULT_GROUP_DISPLAY_NAME = 'Default Group';
 const INVALID_GROUP_NAME_CHARS = /[<>"'`]/;
 const INVALID_GROUP_NAME_CHARS_LIST = '<, >, ", \', or `';
+const RESERVED_FILENAMES = new Set([
+    'con', 'prn', 'aux', 'nul',
+    'com1', 'com2', 'com3', 'com4', 'com5', 'com6', 'com7', 'com8', 'com9',
+    'lpt1', 'lpt2', 'lpt3', 'lpt4', 'lpt5', 'lpt6', 'lpt7', 'lpt8', 'lpt9'
+]);
 
-// Helper function to encode UTF-8 string to base64 for GitHub API
+/**
+ * Encodes a UTF-8 string to base64 format required by GitHub API.
+ * GitHub's API requires file content to be base64-encoded, and this function
+ * properly handles UTF-8 characters by converting them through percent-encoding first.
+ * @param {string} str - The UTF-8 string to encode
+ * @returns {string} Base64-encoded string
+ */
 function utf8ToBase64(str) {
     return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => 
         String.fromCharCode(parseInt(p1, 16))
     ));
 }
 
+/**
+ * Sanitizes a string for safe display in user-facing messages by removing
+ * potentially dangerous HTML characters.
+ * @param {string} str - The string to sanitize
+ * @returns {string} Sanitized string with <> characters removed
+ */
+function sanitizeForDisplay(str) {
+    return String(str).replace(/[<>]/g, '');
+}
+
 // Check if a filename base is a reserved name (Windows reserved device names)
 function isReservedFilename(baseName) {
-    const reserved = new Set([
-        'con', 'prn', 'aux', 'nul',
-        'com1', 'com2', 'com3', 'com4', 'com5', 'com6', 'com7', 'com8', 'com9',
-        'lpt1', 'lpt2', 'lpt3', 'lpt4', 'lpt5', 'lpt6', 'lpt7', 'lpt8', 'lpt9'
-    ]);
-    return reserved.has((baseName || '').toLowerCase());
+    return RESERVED_FILENAMES.has((baseName || '').toLowerCase());
 }
 
 // Get data filename for a group
@@ -312,10 +328,8 @@ async function createGroup() {
         renderGroupsList();
         input.value = '';
         
-        // Sanitize name for display in confirmation
-        const safeName = name.replace(/[<>]/g, '');
         // Ask if user wants to switch to new group
-        if (confirm(`Group "${safeName}" created! Switch to it now?`)) {
+        if (confirm(`Group "${sanitizeForDisplay(name)}" created! Switch to it now?`)) {
             await selectGroup(name);
         }
     } catch (error) {
@@ -357,13 +371,12 @@ async function switchGroup() {
 }
 
 async function deleteGroup(name) {
-    const safeName = String(name).replace(/[<>]/g, '');
     if (name === 'default') {
         alert('Cannot delete the default group');
         return;
     }
     
-    if (!confirm(`Delete group "${safeName}"? This will also delete all expenses in this group.`)) {
+    if (!confirm(`Delete group "${sanitizeForDisplay(name)}"? This will also delete all expenses in this group.`)) {
         return;
     }
     
@@ -1029,8 +1042,8 @@ function exportToExcel() {
 
 // Clear All Data
 async function clearAllData() {
-    const safeName = currentGroup === 'default' ? DEFAULT_GROUP_DISPLAY_NAME : String(currentGroup).replace(/[<>]/g, '');
-    if (!confirm(`Clear all data for "${safeName}"? This cannot be undone.`)) return;
+    const displayName = currentGroup === 'default' ? DEFAULT_GROUP_DISPLAY_NAME : sanitizeForDisplay(currentGroup);
+    if (!confirm(`Clear all data for "${displayName}"? This cannot be undone.`)) return;
     
     // Optimistic update - instant UI
     members = [];
