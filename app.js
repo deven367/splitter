@@ -46,7 +46,9 @@ function utf8ToBase64(str) {
 
 /**
  * Sanitizes a string for safe display in user-facing messages by removing
- * potentially dangerous HTML characters.
+ * potentially dangerous HTML characters. Note: This only removes angle brackets
+ * for basic HTML injection prevention. For full XSS protection, use textContent
+ * or createElement when inserting into DOM.
  * @param {string} str - The string to sanitize
  * @returns {string} Sanitized string with <> characters removed
  */
@@ -314,8 +316,9 @@ async function createGroup() {
         return;
     }
     
-    // Case-insensitive duplicate check to prevent filename collisions
-    if (groups.some(g => g.toLowerCase() === name.toLowerCase())) {
+    // Check for both name and filename collisions to prevent data overwrites
+    const newFilename = getDataFilename(name);
+    if (groups.some(g => g.toLowerCase() === name.toLowerCase() || getDataFilename(g) === newFilename)) {
         alert('A group with this name already exists');
         return;
     }
