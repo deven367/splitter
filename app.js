@@ -448,6 +448,155 @@ async function deleteExpense(id) {
     queueSync(`Delete expense: ${expense?.description || 'Unknown'}`);
 }
 
+// Edit Expense Modal Functions
+function showEditExpense(id) {
+    const expense = expenses.find(e => e.id === id);
+    if (!expense) return;
+    
+    document.getElementById('editExpenseModal').classList.remove('hidden');
+    
+    // Populate form fields
+    document.getElementById('editExpenseId').value = expense.id;
+    document.getElementById('editExpenseDescription').value = expense.description;
+    document.getElementById('editExpenseAmount').value = expense.amount;
+    
+    // Populate paid by dropdown
+    const paidBySelect = document.getElementById('editPaidBy');
+    paidBySelect.innerHTML = '<option value="">Select...</option>' +
+        members.map(member => `<option value="${member}" ${member === expense.paidBy ? 'selected' : ''}>${member}</option>`).join('');
+    
+    // Populate split between checkboxes
+    const splitBetweenContainer = document.getElementById('editSplitBetween');
+    splitBetweenContainer.innerHTML = members.map(member => `
+        <div class="checkbox-item">
+            <input type="checkbox" id="edit_split_${member}" value="${member}" 
+                ${expense.splitBetween.includes(member) ? 'checked' : ''} 
+                onchange="updateEditCustomSplitInputs()">
+            <label for="edit_split_${member}">${member}</label>
+        </div>
+    `).join('');
+    
+    // Determine split type (equal vs custom)
+    const isEqualSplit = checkIfEqualSplit(expense);
+    document.getElementById('editSplitType').value = isEqualSplit ? 'equal' : 'custom';
+    
+    // Show/hide custom split section and populate values
+    toggleEditCustomSplit();
+    
+    // If custom split, populate the values
+    if (!isEqualSplit) {
+        setTimeout(() => {
+            Object.entries(expense.splits).forEach(([member, amount]) => {
+                const input = document.getElementById(`edit_custom_${member}`);
+                if (input) input.value = amount;
+            });
+        }, 0);
+    }
+}
+
+function checkIfEqualSplit(expense) {
+    const splitValues = Object.values(expense.splits);
+    if (splitValues.length === 0) return true;
+    
+    const expectedPerPerson = expense.amount / splitValues.length;
+    // Allow small tolerance for rounding
+    return splitValues.every(val => Math.abs(val - expectedPerPerson) < 0.02);
+}
+
+function hideEditExpense() {
+    document.getElementById('editExpenseModal').classList.add('hidden');
+}
+
+function toggleEditCustomSplit() {
+    const splitType = document.getElementById('editSplitType').value;
+    const customSection = document.getElementById('editCustomSplitSection');
+    
+    if (splitType === 'custom') {
+        customSection.classList.remove('hidden');
+        updateEditCustomSplitInputs();
+    } else {
+        customSection.classList.add('hidden');
+    }
+}
+
+function updateEditCustomSplitInputs() {
+    const container = document.getElementById('editCustomSplitInputs');
+    const checkboxes = document.querySelectorAll('#editSplitBetween input:checked');
+    const selectedMembers = Array.from(checkboxes).map(cb => cb.value);
+    
+    container.innerHTML = selectedMembers.map(member => `
+        <div class="custom-split-input">
+            <label>${member}</label>
+            <input type="number" id="edit_custom_${member}" placeholder="0.00" step="0.01" min="0" />
+        </div>
+    `).join('');
+}
+
+async function saveEditExpense() {
+    const id = parseInt(document.getElementById('editExpenseId').value);
+    const description = document.getElementById('editExpenseDescription').value.trim();
+    const amount = parseFloat(document.getElementById('editExpenseAmount').value);
+    const paidBy = document.getElementById('editPaidBy').value;
+    const splitType = document.getElementById('editSplitType').value;
+    
+    const checkboxes = document.querySelectorAll('#editSplitBetween input:checked');
+    const splitBetween = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (!description) { alert('Please enter a description'); return; }
+    if (!amount || amount <= 0) { alert('Please enter a valid amount'); return; }
+    if (!paidBy) { alert('Please select who paid'); return; }
+    if (splitBetween.length === 0) { alert('Please select at least one person to split with'); return; }
+    
+    let splits = {};
+    
+    if (splitType === 'equal') {
+        const perPerson = amount / splitBetween.length;
+        splitBetween.forEach(member => {
+            splits[member] = Math.round(perPerson * 100) / 100;
+        });
+        
+        const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
+        const diff = Math.round((amount - totalSplit) * 100) / 100;
+        if (diff !== 0) splits[splitBetween[0]] += diff;
+    } else {
+        let totalCustom = 0;
+        splitBetween.forEach(member => {
+            const customAmount = parseFloat(document.getElementById(`edit_custom_${member}`).value) || 0;
+            splits[member] = customAmount;
+            totalCustom += customAmount;
+        });
+        
+        if (Math.abs(totalCustom - amount) > 0.01) {
+            alert(`Custom splits ($${totalCustom.toFixed(2)}) must equal the total ($${amount.toFixed(2)})`);
+            return;
+        }
+    }
+    
+    // Find and update the expense
+    const expenseIndex = expenses.findIndex(e => e.id === id);
+    if (expenseIndex === -1) {
+        alert('Expense not found');
+        return;
+    }
+    
+    const oldDescription = expenses[expenseIndex].description;
+    
+    expenses[expenseIndex] = {
+        ...expenses[expenseIndex],
+        description,
+        amount,
+        paidBy,
+        splitBetween,
+        splits
+    };
+    
+    hideEditExpense();
+    renderAll();
+    
+    // Queue sync in background
+    queueSync(`Edit expense: ${oldDescription} → ${description} ($${amount.toFixed(2)})`);
+}
+
 // Calculate Balances
 function calculateBalances() {
     const balances = {};
@@ -552,6 +701,7 @@ function renderExpenses() {
                 <div class="expense-right">
                     <div class="expense-amount">$${expense.amount.toFixed(2)}</div>
                     <div class="expense-actions">
+                        <button class="edit-btn" onclick="showEditExpense(${expense.id})">✎</button>
                         <button onclick="deleteExpense(${expense.id})">✕</button>
                     </div>
                 </div>
@@ -678,6 +828,10 @@ document.getElementById('memberName').addEventListener('keypress', function(e) {
 // Close modal on outside click
 document.getElementById('settingsModal').addEventListener('click', function(e) {
     if (e.target === this) hideSettings();
+});
+
+document.getElementById('editExpenseModal').addEventListener('click', function(e) {
+    if (e.target === this) hideEditExpense();
 });
 
 // Initialize
