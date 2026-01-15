@@ -23,6 +23,15 @@ const SYNC_DELAY = 3000; // Wait 3 seconds before committing (batches rapid chan
 
 // Constants
 const DEFAULT_GROUP_DISPLAY_NAME = 'Default Group';
+const INVALID_GROUP_NAME_CHARS = /[<>"'`]/;
+const INVALID_GROUP_NAME_CHARS_LIST = '<, >, ", \', or `';
+
+// Helper function to encode UTF-8 string to base64 for GitHub API
+function utf8ToBase64(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => 
+        String.fromCharCode(parseInt(p1, 16))
+    ));
+}
 
 // Check if a filename base is a reserved name (Windows reserved device names)
 function isReservedFilename(baseName) {
@@ -163,7 +172,7 @@ async function saveGroupsToGitHub() {
         return;
     }
     
-    const content = btoa(encodeURIComponent(JSON.stringify(groups, null, 2)).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(parseInt(p1, 16))));
+    const content = utf8ToBase64(JSON.stringify(groups, null, 2));
     
     const body = {
         message: 'Update groups',
@@ -284,8 +293,8 @@ async function createGroup() {
     }
     
     // Validate group name doesn't contain problematic characters
-    if (/[<>"'`]/.test(name)) {
-        alert('Group name cannot contain <, >, ", \', or ` characters');
+    if (INVALID_GROUP_NAME_CHARS.test(name)) {
+        alert(`Group name cannot contain ${INVALID_GROUP_NAME_CHARS_LIST} characters`);
         return;
     }
     
@@ -502,7 +511,7 @@ async function commitToGitHub(data, message) {
         return;
     }
     
-    const content = btoa(encodeURIComponent(JSON.stringify(data, null, 2)).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(parseInt(p1, 16))));
+    const content = utf8ToBase64(JSON.stringify(data, null, 2));
     
     const body = {
         message,
