@@ -69,6 +69,51 @@
             </div>
         </div>
 
+        <!-- Edit Expense Modal -->
+        <div id="editExpenseModal" class="modal hidden">
+            <div class="modal-content modal-content-wide">
+                <h2>✏️ Edit Expense</h2>
+                <input type="hidden" id="editExpenseId" />
+                <div class="expense-form">
+                    <div class="form-row-inline">
+                        <div class="form-field">
+                            <label>Description</label>
+                            <input type="text" id="editExpenseDescription" placeholder="e.g., Dinner" />
+                        </div>
+                        <div class="form-field form-field-small">
+                            <label>Amount</label>
+                            <input type="number" id="editExpenseAmount" placeholder="0.00" step="0.01" min="0" />
+                        </div>
+                    </div>
+                    <div class="form-row-inline">
+                        <div class="form-field">
+                            <label>Paid by</label>
+                            <select id="editPaidBy"></select>
+                        </div>
+                        <div class="form-field">
+                            <label>Split Type</label>
+                            <select id="editSplitType" onchange="toggleEditCustomSplit()">
+                                <option value="equal">Equal</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label>Split between</label>
+                        <div id="editSplitBetween" class="checkbox-group"></div>
+                    </div>
+                    <div id="editCustomSplitSection" class="form-row hidden">
+                        <label>Custom Amounts</label>
+                        <div id="editCustomSplitInputs" class="custom-split-grid"></div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button onclick="saveEditExpense()" class="btn btn-primary">Save Changes</button>
+                        <button onclick="hideEditExpense()" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="main-grid">
             <!-- Left Column: Input -->
             <div class="left-column">
