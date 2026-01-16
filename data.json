@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1768583727403,
+      "description": "Electricity",
+      "amount": 188,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 94,
+        "Rahul": 94
+      },
+      "date": "2026-01-16T17:15:27.403Z"
+    },
+    {
       "id": 1768503512526,
       "description": "Sams club (common) (01/11)",
       "amount": 12.45,
