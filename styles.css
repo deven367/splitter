@@ -97,6 +97,10 @@ header {
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
 }
 
+.modal-content-wide {
+    max-width: 500px;
+}
+
 .modal-content h2 {
     margin-bottom: 8px;
     color: #333;
@@ -437,6 +441,11 @@ select:focus {
     color: #667eea;
 }
 
+.expense-actions {
+    display: flex;
+    gap: 6px;
+}
+
 .expense-actions button {
     background: #ff6b6b;
     color: white;
@@ -445,6 +454,15 @@ select:focus {
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.8rem;
+    transition: background 0.2s;
+}
+
+.expense-actions button:hover {
+    opacity: 0.9;
+}
+
+.expense-actions .edit-btn {
+    background: #667eea;
 }
 
 .total-badge {

@@ -5,6 +5,36 @@
   ],
   "expenses": [
     {
+      "id": 1768503512526,
+      "description": "Sams club (common) (01/11)",
+      "amount": 12.45,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 6.220000000000001,
+        "Rahul": 6.23
+      },
+      "date": "2026-01-15T18:58:32.526Z"
+    },
+    {
+      "id": 1768503425025,
+      "description": "Wifi (Jan)",
+      "amount": 46.23,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 23.11,
+        "Rahul": 23.12
+      },
+      "date": "2026-01-15T18:57:05.025Z"
+    },
+    {
       "id": 1768265495272,
       "description": "Water (for Dec 25)",
       "amount": 60,
