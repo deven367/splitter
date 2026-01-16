@@ -6,7 +6,7 @@
   "expenses": [
     {
       "id": 1768583727403,
-      "description": "Electricity",
+      "description": "Electricity - December",
       "amount": 188,
       "paidBy": "Rahul",
       "splitBetween": [
