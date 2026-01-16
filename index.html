@@ -13,7 +13,7 @@
             <h1>💰 Splitter</h1>
             <div class="header-controls">
                 <div class="group-selector">
-                    <select id="groupSelect" onchange="switchGroup()">
+                    <select id="groupSelect" aria-label="Select group" onchange="switchGroup()">
                         <option value="default">Default Group</option>
                     </select>
                     <button onclick="showGroupModal()" class="btn btn-small btn-secondary" title="Manage Groups">+ Group</button>
@@ -53,7 +53,7 @@
                 <h2>📁 Manage Groups</h2>
                 <p class="modal-info">Create expense groups for different trips, events, or roommates.</p>
                 <div class="form-row">
-                    <label>New Group Name</label>
+                    <label for="newGroupName">New Group Name</label>
                     <div class="input-group">
                         <input type="text" id="newGroupName" placeholder="e.g., Trip to Paris" />
                         <button onclick="createGroup()" class="btn btn-primary btn-small">Create</button>
