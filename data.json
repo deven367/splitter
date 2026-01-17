@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1768686253858,
+      "description": "Walmart - deven + combined",
+      "amount": 21,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 21,
+        "Rahul": 0
+      },
+      "date": "2026-01-17T21:44:13.858Z"
+    },
+    {
       "id": 1768683052566,
       "description": "Sams - rahul + common",
       "amount": 33.45,
