@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1768680516346,
+      "description": "Pickle ball set",
+      "amount": 10,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 5,
+        "Rahul": 5
+      },
+      "date": "2026-01-17T20:08:36.346Z"
+    },
+    {
       "id": 1768583727403,
       "description": "Electricity - December",
       "amount": 188,
