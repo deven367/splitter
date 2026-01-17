@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1768683052566,
+      "description": "Sams - rahul + common",
+      "amount": 33.45,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 0,
+        "Rahul": 33.45
+      },
+      "date": "2026-01-17T20:50:52.566Z"
+    },
+    {
       "id": 1768680516346,
       "description": "Pickle ball set",
       "amount": 10,
