@@ -778,6 +778,34 @@ function updatePercentageSplitInputs() {
     `).join('');
 }
 
+// Calculate splits from percentages
+function calculatePercentageSplits(amount, splitBetween, getPercentageFn) {
+    let totalPercentage = 0;
+    const percentages = {};
+    const splits = {};
+    
+    splitBetween.forEach(member => {
+        const percentage = getPercentageFn(member);
+        percentages[member] = percentage;
+        totalPercentage += percentage;
+    });
+    
+    if (Math.abs(totalPercentage - 100) > 0.01) {
+        return { error: `Percentages must sum to 100% (currently ${totalPercentage.toFixed(2)}%)` };
+    }
+    
+    splitBetween.forEach(member => {
+        splits[member] = Math.round((amount * percentages[member] / 100) * 100) / 100;
+    });
+    
+    // Handle rounding difference
+    const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
+    const diff = Math.round((amount - totalSplit) * 100) / 100;
+    if (diff !== 0) splits[splitBetween[0]] += diff;
+    
+    return { splits };
+}
+
 // Add Expense
 async function addExpense() {
     const description = document.getElementById('expenseDescription').value.trim();
@@ -805,28 +833,16 @@ async function addExpense() {
         const diff = Math.round((amount - totalSplit) * 100) / 100;
         if (diff !== 0) splits[splitBetween[0]] += diff;
     } else if (splitType === 'percentage') {
-        let totalPercentage = 0;
-        const percentages = {};
-        
-        splitBetween.forEach(member => {
-            const percentage = parseFloat(document.getElementById(`percentage_${member}`).value) || 0;
-            percentages[member] = percentage;
-            totalPercentage += percentage;
+        const result = calculatePercentageSplits(amount, splitBetween, (member) => {
+            return parseFloat(document.getElementById(`percentage_${member}`).value) || 0;
         });
         
-        if (Math.abs(totalPercentage - 100) > 0.01) {
-            alert(`Percentages must sum to 100% (currently ${totalPercentage.toFixed(2)}%)`);
+        if (result.error) {
+            alert(result.error);
             return;
         }
         
-        splitBetween.forEach(member => {
-            splits[member] = Math.round((amount * percentages[member] / 100) * 100) / 100;
-        });
-        
-        // Handle rounding difference
-        const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
-        const diff = Math.round((amount - totalSplit) * 100) / 100;
-        if (diff !== 0) splits[splitBetween[0]] += diff;
+        splits = result.splits;
     } else {
         let totalCustom = 0;
         splitBetween.forEach(member => {
@@ -1050,28 +1066,16 @@ async function saveEditExpense() {
         const diff = Math.round((amount - totalSplit) * 100) / 100;
         if (diff !== 0) splits[splitBetween[0]] += diff;
     } else if (splitType === 'percentage') {
-        let totalPercentage = 0;
-        const percentages = {};
-        
-        splitBetween.forEach(member => {
-            const percentage = parseFloat(document.getElementById(`edit_percentage_${member}`).value) || 0;
-            percentages[member] = percentage;
-            totalPercentage += percentage;
+        const result = calculatePercentageSplits(amount, splitBetween, (member) => {
+            return parseFloat(document.getElementById(`edit_percentage_${member}`).value) || 0;
         });
         
-        if (Math.abs(totalPercentage - 100) > 0.01) {
-            alert(`Percentages must sum to 100% (currently ${totalPercentage.toFixed(2)}%)`);
+        if (result.error) {
+            alert(result.error);
             return;
         }
         
-        splitBetween.forEach(member => {
-            splits[member] = Math.round((amount * percentages[member] / 100) * 100) / 100;
-        });
-        
-        // Handle rounding difference
-        const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
-        const diff = Math.round((amount - totalSplit) * 100) / 100;
-        if (diff !== 0) splits[splitBetween[0]] += diff;
+        splits = result.splits;
     } else {
         let totalCustom = 0;
         splitBetween.forEach(member => {

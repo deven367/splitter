@@ -78,16 +78,16 @@ function calculateEqualSplit(amount, splitBetween) {
 
 function calculatePercentageSplit(amount, percentages) {
     const splits = {};
+    const members = Object.keys(percentages);
     
-    Object.entries(percentages).forEach(([member, percentage]) => {
-        splits[member] = Math.round((amount * percentage / 100) * 100) / 100;
+    members.forEach(member => {
+        splits[member] = Math.round((amount * percentages[member] / 100) * 100) / 100;
     });
     
-    // Handle rounding difference
+    // Handle rounding difference - add to first member
     const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
     const diff = Math.round((amount - totalSplit) * 100) / 100;
-    const firstMember = Object.keys(splits)[0];
-    if (diff !== 0 && firstMember) splits[firstMember] += diff;
+    if (diff !== 0 && members.length > 0) splits[members[0]] += diff;
     
     return splits;
 }
