@@ -970,8 +970,7 @@ function checkIfEqualSplit(expense) {
 }
 
 function checkIfPercentageSplit(expense) {
-    // Check if splits appear to be percentage-based
-    // We'll store the percentages used, so we can check if they're round numbers or not equal
+    // Check if splits appear to be percentage-based by calculating the implied percentages
     if (!expense.splits || Object.keys(expense.splits).length === 0) return false;
     
     const members = Object.keys(expense.splits);
