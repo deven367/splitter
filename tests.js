@@ -76,6 +76,22 @@ function calculateEqualSplit(amount, splitBetween) {
     return splits;
 }
 
+function calculatePercentageSplit(amount, percentages) {
+    const splits = {};
+    
+    Object.entries(percentages).forEach(([member, percentage]) => {
+        splits[member] = Math.round((amount * percentage / 100) * 100) / 100;
+    });
+    
+    // Handle rounding difference
+    const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
+    const diff = Math.round((amount - totalSplit) * 100) / 100;
+    const firstMember = Object.keys(splits)[0];
+    if (diff !== 0 && firstMember) splits[firstMember] += diff;
+    
+    return splits;
+}
+
 // ============================================
 // Test Framework
 // ============================================
@@ -338,6 +354,70 @@ test('Trip scenario: multiple expenses, multiple payers', () => {
     // Charlie owes Alice $90, Bob owes Alice $60
     const totalOwed = settlements.reduce((sum, s) => sum + s.amount, 0);
     assertEqual(totalOwed, 150);
+});
+
+// Test: Percentage Split Calculation
+test('Percentage split: 50-50', () => {
+    const splits = calculatePercentageSplit(100, { 'Alice': 50, 'Bob': 50 });
+    assertEqual(splits['Alice'], 50);
+    assertEqual(splits['Bob'], 50);
+});
+
+test('Percentage split: 60-40', () => {
+    const splits = calculatePercentageSplit(100, { 'Alice': 60, 'Bob': 40 });
+    assertEqual(splits['Alice'], 60);
+    assertEqual(splits['Bob'], 40);
+});
+
+test('Percentage split: 3-way unequal', () => {
+    const splits = calculatePercentageSplit(100, { 'Alice': 50, 'Bob': 30, 'Charlie': 20 });
+    assertEqual(splits['Alice'], 50);
+    assertEqual(splits['Bob'], 30);
+    assertEqual(splits['Charlie'], 20);
+});
+
+test('Percentage split handles rounding (total matches)', () => {
+    const splits = calculatePercentageSplit(100, { 'Alice': 33.33, 'Bob': 33.33, 'Charlie': 33.34 });
+    const total = Object.values(splits).reduce((a, b) => a + b, 0);
+    assertClose(total, 100, 0.01, 'Total should equal original amount');
+});
+
+test('Percentage split with odd amount', () => {
+    const splits = calculatePercentageSplit(97.50, { 'Alice': 60, 'Bob': 40 });
+    assertClose(splits['Alice'], 58.5, 0.01);
+    assertClose(splits['Bob'], 39, 0.01);
+    const total = Object.values(splits).reduce((a, b) => a + b, 0);
+    assertClose(total, 97.50, 0.01);
+});
+
+test('Percentage split balances correctly', () => {
+    const members = ['Alice', 'Bob'];
+    const expenses = [{
+        paidBy: 'Alice',
+        amount: 100,
+        splits: calculatePercentageSplit(100, { 'Alice': 70, 'Bob': 30 })
+    }];
+    
+    const balances = calculateBalances(members, expenses);
+    assertClose(balances['Alice'], 30, 0.01);  // Alice paid $100, owes $70
+    assertClose(balances['Bob'], -30, 0.01);   // Bob owes $30
+});
+
+test('Percentage split settlement works', () => {
+    const members = ['Alice', 'Bob', 'Charlie'];
+    const expenses = [{
+        paidBy: 'Alice',
+        amount: 150,
+        splits: calculatePercentageSplit(150, { 'Alice': 50, 'Bob': 30, 'Charlie': 20 })
+    }];
+    
+    const settlements = calculateSettlements(members, expenses);
+    assertEqual(settlements.length, 2);
+    
+    const totalToAlice = settlements
+        .filter(s => s.to === 'Alice')
+        .reduce((sum, s) => sum + s.amount, 0);
+    assertClose(totalToAlice, 75, 0.01);  // Bob owes $45, Charlie owes $30
 });
 
 // ============================================

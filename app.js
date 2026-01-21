@@ -734,12 +734,19 @@ async function removeMember(name) {
 function toggleCustomSplit() {
     const splitType = document.getElementById('splitType').value;
     const customSection = document.getElementById('customSplitSection');
+    const percentageSection = document.getElementById('percentageSplitSection');
     
     if (splitType === 'custom') {
         customSection.classList.remove('hidden');
+        percentageSection.classList.add('hidden');
         updateCustomSplitInputs();
+    } else if (splitType === 'percentage') {
+        percentageSection.classList.remove('hidden');
+        customSection.classList.add('hidden');
+        updatePercentageSplitInputs();
     } else {
         customSection.classList.add('hidden');
+        percentageSection.classList.add('hidden');
     }
 }
 
@@ -753,6 +760,20 @@ function updateCustomSplitInputs() {
         <div class="custom-split-input">
             <label>${member}</label>
             <input type="number" id="custom_${member}" placeholder="0.00" step="0.01" min="0" />
+        </div>
+    `).join('');
+}
+
+// Update Percentage Split Inputs
+function updatePercentageSplitInputs() {
+    const container = document.getElementById('percentageSplitInputs');
+    const checkboxes = document.querySelectorAll('#splitBetween input:checked');
+    const selectedMembers = Array.from(checkboxes).map(cb => cb.value);
+    
+    container.innerHTML = selectedMembers.map(member => `
+        <div class="custom-split-input">
+            <label>${member}</label>
+            <input type="number" id="percentage_${member}" placeholder="0" step="0.01" min="0" max="100" />
         </div>
     `).join('');
 }
@@ -780,6 +801,29 @@ async function addExpense() {
             splits[member] = Math.round(perPerson * 100) / 100;
         });
         
+        const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
+        const diff = Math.round((amount - totalSplit) * 100) / 100;
+        if (diff !== 0) splits[splitBetween[0]] += diff;
+    } else if (splitType === 'percentage') {
+        let totalPercentage = 0;
+        const percentages = {};
+        
+        splitBetween.forEach(member => {
+            const percentage = parseFloat(document.getElementById(`percentage_${member}`).value) || 0;
+            percentages[member] = percentage;
+            totalPercentage += percentage;
+        });
+        
+        if (Math.abs(totalPercentage - 100) > 0.01) {
+            alert(`Percentages must sum to 100% (currently ${totalPercentage.toFixed(2)}%)`);
+            return;
+        }
+        
+        splitBetween.forEach(member => {
+            splits[member] = Math.round((amount * percentages[member] / 100) * 100) / 100;
+        });
+        
+        // Handle rounding difference
         const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
         const diff = Math.round((amount - totalSplit) * 100) / 100;
         if (diff !== 0) splits[splitBetween[0]] += diff;
@@ -815,6 +859,7 @@ async function addExpense() {
     document.getElementById('expenseAmount').value = '';
     document.getElementById('splitType').value = 'equal';
     document.getElementById('customSplitSection').classList.add('hidden');
+    document.getElementById('percentageSplitSection').classList.add('hidden');
     
     renderAll();
     
@@ -859,20 +904,37 @@ function showEditExpense(id) {
         <div class="checkbox-item">
             <input type="checkbox" id="edit_split_${member}" value="${member}" 
                 ${expense.splitBetween.includes(member) ? 'checked' : ''} 
-                onchange="updateEditCustomSplitInputs()">
+                onchange="updateEditCustomSplitInputs(); updateEditPercentageSplitInputs();">
             <label for="edit_split_${member}">${member}</label>
         </div>
     `).join('');
     
-    // Determine split type (equal vs custom)
+    // Determine split type (equal vs percentage vs custom)
     const isEqualSplit = checkIfEqualSplit(expense);
-    document.getElementById('editSplitType').value = isEqualSplit ? 'equal' : 'custom';
+    const isPercentageSplit = checkIfPercentageSplit(expense);
     
-    // Show/hide custom split section and populate values
+    let splitType = 'equal';
+    if (isPercentageSplit) {
+        splitType = 'percentage';
+    } else if (!isEqualSplit) {
+        splitType = 'custom';
+    }
+    
+    document.getElementById('editSplitType').value = splitType;
+    
+    // Show/hide custom/percentage split section and populate values
     toggleEditCustomSplit();
     
-    // If custom split, populate the values
-    if (!isEqualSplit) {
+    // Populate the values based on split type
+    if (splitType === 'percentage') {
+        setTimeout(() => {
+            Object.entries(expense.splits).forEach(([member, amount]) => {
+                const percentage = (amount / expense.amount) * 100;
+                const input = document.getElementById(`edit_percentage_${member}`);
+                if (input) input.value = percentage.toFixed(2);
+            });
+        }, 0);
+    } else if (splitType === 'custom') {
         setTimeout(() => {
             Object.entries(expense.splits).forEach(([member, amount]) => {
                 const input = document.getElementById(`edit_custom_${member}`);
@@ -891,6 +953,27 @@ function checkIfEqualSplit(expense) {
     return splitValues.every(val => Math.abs(val - expectedPerPerson) < 0.02);
 }
 
+function checkIfPercentageSplit(expense) {
+    // Check if splits appear to be percentage-based
+    // We'll store the percentages used, so we can check if they're round numbers or not equal
+    if (!expense.splits || Object.keys(expense.splits).length === 0) return false;
+    
+    const members = Object.keys(expense.splits);
+    let totalPercentage = 0;
+    
+    for (const member of members) {
+        const splitAmount = expense.splits[member];
+        const percentage = (splitAmount / expense.amount) * 100;
+        totalPercentage += percentage;
+    }
+    
+    // Check if total is approximately 100% and not equal split
+    if (Math.abs(totalPercentage - 100) > 0.01) return false;
+    if (checkIfEqualSplit(expense)) return false;
+    
+    return true;
+}
+
 function hideEditExpense() {
     document.getElementById('editExpenseModal').classList.add('hidden');
 }
@@ -898,12 +981,19 @@ function hideEditExpense() {
 function toggleEditCustomSplit() {
     const splitType = document.getElementById('editSplitType').value;
     const customSection = document.getElementById('editCustomSplitSection');
+    const percentageSection = document.getElementById('editPercentageSplitSection');
     
     if (splitType === 'custom') {
         customSection.classList.remove('hidden');
+        percentageSection.classList.add('hidden');
         updateEditCustomSplitInputs();
+    } else if (splitType === 'percentage') {
+        percentageSection.classList.remove('hidden');
+        customSection.classList.add('hidden');
+        updateEditPercentageSplitInputs();
     } else {
         customSection.classList.add('hidden');
+        percentageSection.classList.add('hidden');
     }
 }
 
@@ -916,6 +1006,19 @@ function updateEditCustomSplitInputs() {
         <div class="custom-split-input">
             <label>${member}</label>
             <input type="number" id="edit_custom_${member}" placeholder="0.00" step="0.01" min="0" />
+        </div>
+    `).join('');
+}
+
+function updateEditPercentageSplitInputs() {
+    const container = document.getElementById('editPercentageSplitInputs');
+    const checkboxes = document.querySelectorAll('#editSplitBetween input:checked');
+    const selectedMembers = Array.from(checkboxes).map(cb => cb.value);
+    
+    container.innerHTML = selectedMembers.map(member => `
+        <div class="custom-split-input">
+            <label>${member}</label>
+            <input type="number" id="edit_percentage_${member}" placeholder="0" step="0.01" min="0" max="100" />
         </div>
     `).join('');
 }
@@ -943,6 +1046,29 @@ async function saveEditExpense() {
             splits[member] = Math.round(perPerson * 100) / 100;
         });
         
+        const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
+        const diff = Math.round((amount - totalSplit) * 100) / 100;
+        if (diff !== 0) splits[splitBetween[0]] += diff;
+    } else if (splitType === 'percentage') {
+        let totalPercentage = 0;
+        const percentages = {};
+        
+        splitBetween.forEach(member => {
+            const percentage = parseFloat(document.getElementById(`edit_percentage_${member}`).value) || 0;
+            percentages[member] = percentage;
+            totalPercentage += percentage;
+        });
+        
+        if (Math.abs(totalPercentage - 100) > 0.01) {
+            alert(`Percentages must sum to 100% (currently ${totalPercentage.toFixed(2)}%)`);
+            return;
+        }
+        
+        splitBetween.forEach(member => {
+            splits[member] = Math.round((amount * percentages[member] / 100) * 100) / 100;
+        });
+        
+        // Handle rounding difference
         const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
         const diff = Math.round((amount - totalSplit) * 100) / 100;
         if (diff !== 0) splits[splitBetween[0]] += diff;
@@ -1062,7 +1188,7 @@ function renderMembers() {
     
     splitBetweenContainer.innerHTML = members.map(member => `
         <div class="checkbox-item">
-            <input type="checkbox" id="split_${member}" value="${member}" checked onchange="updateCustomSplitInputs()">
+            <input type="checkbox" id="split_${member}" value="${member}" checked onchange="updateCustomSplitInputs(); updatePercentageSplitInputs();">
             <label for="split_${member}">${member}</label>
         </div>
     `).join('');
