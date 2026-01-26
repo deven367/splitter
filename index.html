@@ -94,6 +94,7 @@
                             <label>Split Type</label>
                             <select id="editSplitType" onchange="toggleEditCustomSplit()">
                                 <option value="equal">Equal</option>
+                                <option value="percentage">Percentage</option>
                                 <option value="custom">Custom</option>
                             </select>
                         </div>
@@ -105,6 +106,10 @@
                     <div id="editCustomSplitSection" class="form-row hidden">
                         <label>Custom Amounts</label>
                         <div id="editCustomSplitInputs" class="custom-split-grid"></div>
+                    </div>
+                    <div id="editPercentageSplitSection" class="form-row hidden">
+                        <label>Percentage Split</label>
+                        <div id="editPercentageSplitInputs" class="custom-split-grid"></div>
                     </div>
                     <div class="modal-buttons">
                         <button onclick="saveEditExpense()" class="btn btn-primary">Save Changes</button>
@@ -150,6 +155,7 @@
                                 <label>Split Type</label>
                                 <select id="splitType" onchange="toggleCustomSplit()">
                                     <option value="equal">Equal</option>
+                                    <option value="percentage">Percentage</option>
                                     <option value="custom">Custom</option>
                                 </select>
                             </div>
@@ -161,6 +167,10 @@
                         <div id="customSplitSection" class="form-row hidden">
                             <label>Custom Amounts</label>
                             <div id="customSplitInputs" class="custom-split-grid"></div>
+                        </div>
+                        <div id="percentageSplitSection" class="form-row hidden">
+                            <label>Percentage Split</label>
+                            <div id="percentageSplitInputs" class="custom-split-grid"></div>
                         </div>
                         <button onclick="addExpense()" class="btn btn-primary btn-full">Add Expense</button>
                     </div>
