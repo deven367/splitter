@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1769452738228,
+      "description": "Rent",
+      "amount": 1093.2,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 546.6,
+        "Rahul": 546.6
+      },
+      "date": "2026-01-26T18:38:58.228Z"
+    },
+    {
       "id": 1768686253858,
       "description": "Walmart - deven + combined",
       "amount": 21,
