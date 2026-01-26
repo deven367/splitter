@@ -520,6 +520,14 @@ select:focus {
     background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
     border-radius: 8px;
     font-size: 0.9rem;
+    justify-content: space-between;
+}
+
+.settlement-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
 }
 
 .settlement-item .arrow {
@@ -530,6 +538,14 @@ select:focus {
     font-weight: 700;
     color: #667eea;
     margin-left: auto;
+    margin-right: 10px;
+}
+
+.payment-item {
+    background-color: #f6fffa;
+    border-left: 3px solid #38ef7d;
+    padding-left: 12px;
+    margin-left: -5px; /* Offset the left border visual */
 }
 
 .export-buttons {
@@ -663,11 +679,11 @@ select:focus {
     .form-row-inline {
         flex-direction: column;
     }
-    
+
     .form-field-small {
         flex: 1;
     }
-    
+
     .export-buttons {
         flex-direction: column;
     }

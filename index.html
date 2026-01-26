@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -16,8 +18,11 @@
                     <select id="groupSelect" aria-label="Select group" onchange="switchGroup()">
                         <option value="default">Default Group</option>
                     </select>
-                    <button onclick="showGroupModal()" class="btn btn-small btn-secondary" title="Manage Groups">+ Group</button>
+                    <button onclick="showGroupModal()" class="btn btn-small btn-secondary" title="Manage Groups">+
+                        Group</button>
                 </div>
+                <button onclick="showPaymentModal()" class="btn btn-small btn-success" title="Record Payment">💸
+                    Pay</button>
                 <button onclick="showSettings()" class="settings-btn">⚙️</button>
             </div>
         </header>
@@ -65,6 +70,31 @@
                 </div>
                 <div class="modal-buttons">
                     <button onclick="hideGroupModal()" class="btn btn-secondary">Close</button>
+                </div>
+            </div>
+
+            <!-- Payment Modal -->
+            <div id="paymentModal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>💸 Record Payment</h2>
+                    <div class="expense-form">
+                        <div class="form-row">
+                            <label>Payer</label>
+                            <select id="paymentFrom"></select>
+                        </div>
+                        <div class="form-row">
+                            <label>Payee</label>
+                            <select id="paymentTo"></select>
+                        </div>
+                        <div class="form-row">
+                            <label>Amount</label>
+                            <input type="number" id="paymentAmount" placeholder="0.00" step="0.01" min="0" />
+                        </div>
+                        <div class="modal-buttons">
+                            <button onclick="recordPayment()" class="btn btn-primary">Record Payment</button>
+                            <button onclick="hidePaymentModal()" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -220,4 +250,5 @@
     <script src="xlsx.min.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>
