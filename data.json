@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1769528620192,
+      "description": "Kroger (mushrooms)",
+      "amount": 6,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 6
+      },
+      "date": "2026-01-27T15:43:40.192Z"
+    },
+    {
       "id": 1769452738228,
       "description": "Rent",
       "amount": 1093.2,
