@@ -6,16 +6,14 @@
   "expenses": [
     {
       "id": 1770910938728,
-      "description": "test",
-      "amount": 1,
-      "paidBy": "Deven",
+      "description": "Pending bills",
+      "amount": 50.8,
+      "paidBy": "Rahul",
       "splitBetween": [
-        "Deven",
-        "Rahul"
+        "Deven"
       ],
       "splits": {
-        "Deven": 0.5,
-        "Rahul": 0.5
+        "Deven": 50.8
       },
       "date": "2026-02-12T15:42:18.728Z"
     },
