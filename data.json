@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1770912223461,
+      "description": "sams oats",
+      "amount": 8.48,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 8.48
+      },
+      "date": "2026-02-12T16:03:43.461Z"
+    },
+    {
       "id": 1770912209067,
       "description": "sams common - 1/17",
       "amount": 22.91,
