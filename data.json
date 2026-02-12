@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1770911390122,
+      "description": "Apna Bazaar (01/29/26)",
+      "amount": 26,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 13,
+        "Rahul": 13
+      },
+      "date": "2026-02-12T15:49:50.122Z"
+    },
+    {
       "id": 1769528658982,
       "description": "Kroger common (01/22)",
       "amount": 46.93,
