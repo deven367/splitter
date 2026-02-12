@@ -5,19 +5,6 @@
   ],
   "expenses": [
     {
-      "id": 1770910938728,
-      "description": "Pending bills",
-      "amount": 50.8,
-      "paidBy": "Rahul",
-      "splitBetween": [
-        "Deven"
-      ],
-      "splits": {
-        "Deven": 50.8
-      },
-      "date": "2026-02-12T15:42:18.728Z"
-    },
-    {
       "id": 1769528658982,
       "description": "Kroger common (01/22)",
       "amount": 46.93,
