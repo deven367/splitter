@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1770911447568,
+      "description": "Water (for Jan 26)",
+      "amount": 60,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 30,
+        "Rahul": 30
+      },
+      "date": "2026-02-12T15:50:47.568Z"
+    },
+    {
       "id": 1770911390122,
       "description": "Apna Bazaar (01/29/26)",
       "amount": 26,
