@@ -24,7 +24,7 @@ function ExpensesList({ expenses, onDeleteExpense, onEditExpense }) {
                   <p>
                     {isPayment
                       ? `${expense.paidBy} paid ${expense.splitBetween[0]} • ${date}`
-                      : `${expense.paidBy} paid • ${date}`
+                      : `${expense.paidBy} paid • split between ${expense.splitBetween.join(', ')} • ${date}`
                     }
                   </p>
                 </div>
