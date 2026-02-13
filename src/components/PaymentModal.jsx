@@ -4,6 +4,7 @@ function PaymentModal({ members, paymentData, onClose, onRecordPayment }) {
   const [from, setFrom] = useState(paymentData.from);
   const [to, setTo] = useState(paymentData.to);
   const [amount, setAmount] = useState(paymentData.amount);
+  const suggestedAmount = paymentData.suggestedAmount;
 
   useEffect(() => {
     setFrom(paymentData.from);
@@ -70,13 +71,25 @@ function PaymentModal({ members, paymentData, onClose, onRecordPayment }) {
               ))}
             </select>
           </div>
+          {suggestedAmount && (
+            <p className="payment-balance-hint">
+              Balance owed: ${Number(suggestedAmount).toFixed(2)}
+              <button
+                type="button"
+                className="link-btn"
+                onClick={() => setAmount(Number(suggestedAmount).toFixed(2))}
+              >
+                Use full balance
+              </button>
+            </p>
+          )}
           <div className="form-row">
             <label>Amount</label>
             <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder="0.00"
+              placeholder={suggestedAmount ? `Enter full or partial amount` : '0.00'}
               step="0.01"
               min="0"
             />
