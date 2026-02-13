@@ -541,11 +541,40 @@ select:focus {
     margin-right: 10px;
 }
 
+.settlement-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
 .payment-item {
     background-color: #f6fffa;
     border-left: 3px solid #38ef7d;
     padding-left: 12px;
     margin-left: -5px; /* Offset the left border visual */
+}
+
+.payment-balance-hint {
+    font-size: 0.9rem;
+    color: #666;
+    margin: -4px 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.payment-balance-hint .link-btn {
+    background: none;
+    border: none;
+    color: #667eea;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.payment-balance-hint .link-btn:hover {
+    color: #5a67d8;
 }
 
 .export-buttons {

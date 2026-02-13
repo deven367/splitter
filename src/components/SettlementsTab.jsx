@@ -1,6 +1,6 @@
 import { calculateSettlements } from '../utils/calculations';
 
-function SettlementsTab({ members, expenses, onSettleUp }) {
+function SettlementsTab({ members, expenses, onSettleUp, onPartialPayment }) {
   const settlements = calculateSettlements(members, expenses);
 
   if (settlements.length === 0) {
@@ -17,12 +17,21 @@ function SettlementsTab({ members, expenses, onSettleUp }) {
             <strong>{s.to}</strong>
             <span className="settlement-amount">${s.amount.toFixed(2)}</span>
           </div>
-          <button
-            onClick={() => onSettleUp(s.from, s.to, s.amount)}
-            className="btn btn-small btn-success"
-          >
-            Mark Paid
-          </button>
+          <div className="settlement-actions">
+            <button
+              onClick={() => onPartialPayment(s.from, s.to, s.amount)}
+              className="btn btn-small btn-secondary"
+              title="Record a partial payment"
+            >
+              Partial
+            </button>
+            <button
+              onClick={() => onSettleUp(s.from, s.to, s.amount)}
+              className="btn btn-small btn-success"
+            >
+              Mark Paid
+            </button>
+          </div>
         </div>
       ))}
     </div>

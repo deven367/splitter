@@ -27,7 +27,7 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentModalData, setPaymentModalData] = useState({ from: '', to: '', amount: '' });
+  const [paymentModalData, setPaymentModalData] = useState({ from: '', to: '', amount: '', suggestedAmount: '' });
   const [showEditExpense, setShowEditExpense] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
   const [activeTab, setActiveTab] = useState('balances');
@@ -125,9 +125,9 @@ function App() {
     appState.clearAllData();
   };
 
-  // Open payment modal
-  const openPaymentModal = (from = '', to = '', amount = '') => {
-    setPaymentModalData({ from, to, amount });
+  // Open payment modal (suggestedAmount = full balance when recording partial)
+  const openPaymentModal = (from = '', to = '', amount = '', suggestedAmount = '') => {
+    setPaymentModalData({ from, to, amount, suggestedAmount: suggestedAmount || amount });
     setShowPaymentModal(true);
   };
 
@@ -293,6 +293,7 @@ function App() {
                 members={appState.members}
                 expenses={appState.expenses}
                 onSettleUp={openPaymentModal}
+                onPartialPayment={(from, to, fullAmount) => openPaymentModal(from, to, '', fullAmount)}
               />
             )}
           </section>
