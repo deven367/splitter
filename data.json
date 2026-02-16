@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1771208027941,
+      "description": "Beer + chips",
+      "amount": 16.96,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 8.48,
+        "Rahul": 8.48
+      },
+      "date": "2026-02-16T02:13:47.941Z"
+    },
+    {
       "id": 1770912570312,
       "description": "Electricity (for Jan 26)",
       "amount": 260.08,
