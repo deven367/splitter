@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1771208041823,
+      "description": "QDOBA",
+      "amount": 15.5,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 7.75,
+        "Rahul": 7.75
+      },
+      "date": "2026-02-16T02:14:01.823Z"
+    },
+    {
       "id": 1771208027941,
       "description": "Beer + chips",
       "amount": 16.96,
