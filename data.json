@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1771343567152,
+      "description": "Sam's (Rahul) (Eggs + granola)",
+      "amount": 14.4,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 14.4
+      },
+      "date": "2026-02-17T15:52:47.152Z"
+    },
+    {
       "id": 1771208041823,
       "description": "QDOBA",
       "amount": 15.5,
