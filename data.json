@@ -21,14 +21,14 @@
     },
     {
       "id": 1772211595371,
-      "description": "Walmart pumpkin seeds",
-      "amount": 6.2,
+      "description": "Walmart pumpkin seeds + tofu",
+      "amount": 9.62,
       "paidBy": "Rahul",
       "splitBetween": [
         "Deven"
       ],
       "splits": {
-        "Deven": 6.2
+        "Deven": 9.62
       },
       "date": "2026-02-27T16:59:55.371Z"
     },
