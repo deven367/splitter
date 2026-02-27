@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1772211631891,
+      "description": "Walmart milk + melon",
+      "amount": 4.63,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 2.31,
+        "Rahul": 2.32
+      },
+      "date": "2026-02-27T17:00:31.891Z"
+    },
+    {
       "id": 1772211595371,
       "description": "Walmart pumpkin seeds",
       "amount": 6.2,
