@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1772211595371,
+      "description": "Walmart pumpkin seeds",
+      "amount": 6.2,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 6.2
+      },
+      "date": "2026-02-27T16:59:55.371Z"
+    },
+    {
       "id": 1772211310855,
       "description": "Rent partial",
       "amount": 509.5,
