@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1772206694295,
+      "description": "Sam's cherry tomatoes",
+      "amount": 6.57,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 3.2800000000000002,
+        "Rahul": 3.29
+      },
+      "date": "2026-02-27T15:38:14.295Z"
+    },
+    {
       "id": 1771343567152,
       "description": "Sam's (Rahul) (Eggs + granola)",
       "amount": 14.4,
