@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1772988404251,
+      "description": "quarters + $3",
+      "amount": 13,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 13
+      },
+      "date": "2026-03-08T16:46:44.251Z"
+    },
+    {
       "id": 1772582963503,
       "description": "Siam House",
       "amount": 66,
