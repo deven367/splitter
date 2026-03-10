@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1773107107022,
+      "description": "amazon travel bottles",
+      "amount": 10.69,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 10.69
+      },
+      "date": "2026-03-10T01:45:07.022Z"
+    },
+    {
       "id": 1773107082856,
       "description": "amazon seed mix",
       "amount": 13.99,
