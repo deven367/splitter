@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1773107139901,
+      "description": "amazon face wash",
+      "amount": 11.77,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 11.77
+      },
+      "date": "2026-03-10T01:45:39.901Z"
+    },
+    {
       "id": 1773107107022,
       "description": "amazon travel bottles",
       "amount": 10.69,
