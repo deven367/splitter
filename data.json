@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1773617532783,
+      "description": "sams club common",
+      "amount": 9.64,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 4.82,
+        "Deven": 4.82
+      },
+      "date": "2026-03-15T23:32:12.783Z"
+    },
+    {
       "id": 1773617450691,
       "description": "walmart yoghurt",
       "amount": 1.27,
