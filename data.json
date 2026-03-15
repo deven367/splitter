@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1773607676677,
+      "description": "Strawberry",
+      "amount": 4.97,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 4.97
+      },
+      "date": "2026-03-15T20:47:56.677Z"
+    },
+    {
       "id": 1773607651238,
       "description": "Sams common",
       "amount": 52.67,
