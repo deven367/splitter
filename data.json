@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1773607651238,
+      "description": "Sams common",
+      "amount": 52.67,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 26.33,
+        "Rahul": 26.34
+      },
+      "date": "2026-03-15T20:47:31.238Z"
+    },
+    {
       "id": 1773107139901,
       "description": "amazon face wash",
       "amount": 11.77,
