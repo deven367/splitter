@@ -67,15 +67,15 @@
     {
       "id": 1773617532783,
       "description": "sams club common",
-      "amount": 9.64,
+      "amount": 3.16,
       "paidBy": "Deven",
       "splitBetween": [
         "Rahul",
         "Deven"
       ],
       "splits": {
-        "Rahul": 4.82,
-        "Deven": 4.82
+        "Rahul": 1.58,
+        "Deven": 1.58
       },
       "date": "2026-03-15T23:32:12.783Z"
     },
