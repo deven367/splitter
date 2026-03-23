@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1774286820820,
+      "description": "Wifi (March)",
+      "amount": 46.23,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 23.11,
+        "Rahul": 23.12
+      },
+      "date": "2026-03-23T17:27:00.820Z"
+    },
+    {
       "id": 1774236363056,
       "description": "costco rice",
       "amount": 22,
