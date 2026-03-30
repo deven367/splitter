@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1774883169113,
+      "description": "Patel bros (Rahul) (Ugadi stuff)",
+      "amount": 21.25,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 21.25
+      },
+      "date": "2026-03-30T15:06:09.113Z"
+    },
+    {
       "id": 1774883142889,
       "description": "Patel bros (remaining common)",
       "amount": 34,
