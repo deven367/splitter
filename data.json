@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1774882945796,
+      "description": "Patel (chole)",
+      "amount": 6,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 3,
+        "Rahul": 3
+      },
+      "date": "2026-03-30T15:02:25.796Z"
+    },
+    {
       "id": 1774882914036,
       "description": "Spring rolls",
       "amount": 10,
