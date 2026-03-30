@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1774882982573,
+      "description": "Patel bros (udad dal)",
+      "amount": 4.49,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 2.24,
+        "Rahul": 2.25
+      },
+      "date": "2026-03-30T15:03:02.573Z"
+    },
+    {
       "id": 1774882945796,
       "description": "Patel bros (chole)",
       "amount": 6,
