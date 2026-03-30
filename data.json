@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1774883344565,
+      "description": "Sams 03/29 (Tilapia)",
+      "amount": 16.68,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 16.68
+      },
+      "date": "2026-03-30T15:09:04.565Z"
+    },
+    {
       "id": 1774883299685,
       "description": "Kroger (03/25) Common",
       "amount": 7.46,
