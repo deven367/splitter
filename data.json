@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1774882905164,
+      "description": "Costco greek seasoning",
+      "amount": 7.49,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 3.74,
+        "Rahul": 3.75
+      },
+      "date": "2026-03-30T15:01:45.164Z"
+    },
+    {
       "id": 1774844660703,
       "description": "Rent",
       "amount": 1093.2,
