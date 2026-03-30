@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1774883259629,
+      "description": "Kroger (03/22) common",
+      "amount": 3.78,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 1.89,
+        "Deven": 1.89
+      },
+      "date": "2026-03-30T15:07:39.629Z"
+    },
+    {
       "id": 1774883169113,
       "description": "Patel bros (Rahul) (Ugadi stuff)",
       "amount": 21.25,
