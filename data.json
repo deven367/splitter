@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1774882914036,
+      "description": "Spring rolls",
+      "amount": 10,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 5,
+        "Rahul": 5
+      },
+      "date": "2026-03-30T15:01:54.036Z"
+    },
+    {
       "id": 1774882905164,
       "description": "Costco greek seasoning",
       "amount": 7.49,
