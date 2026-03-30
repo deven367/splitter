@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1774883371347,
+      "description": "Sams 03/29 (common) (milk + bananas)",
+      "amount": 6.28,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 3.14,
+        "Deven": 3.14
+      },
+      "date": "2026-03-30T15:09:31.347Z"
+    },
+    {
       "id": 1774883344565,
       "description": "Sams 03/29 (Tilapia)",
       "amount": 16.68,
