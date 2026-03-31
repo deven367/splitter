@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1774966836190,
+      "description": "Kroger (03/30) Carrot + Avocado",
+      "amount": 2.29,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 2.29
+      },
+      "date": "2026-03-31T14:20:36.190Z"
+    },
+    {
       "id": 1774965186645,
       "description": "Water (March 26)",
       "amount": 60.02,
