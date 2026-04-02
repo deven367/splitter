@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1775144650823,
+      "description": "Aldi (Rahul) (salad+mushrooms)",
+      "amount": 4,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 4
+      },
+      "date": "2026-04-02T15:44:10.823Z"
+    },
+    {
       "id": 1775144570345,
       "description": "Aldi (03/30) Common",
       "amount": 13.28,
