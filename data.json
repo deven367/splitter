@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1775144729134,
+      "description": "Kroger water (03/30)",
+      "amount": 2.79,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 1.39,
+        "Deven": 1.4
+      },
+      "date": "2026-04-02T15:45:29.134Z"
+    },
+    {
       "id": 1775144650823,
       "description": "Aldi (Rahul) (salad+mushrooms)",
       "amount": 4,
