@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1775144570345,
+      "description": "Aldi (03/30) Common",
+      "amount": 13.28,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 6.64,
+        "Rahul": 6.64
+      },
+      "date": "2026-04-02T15:42:50.345Z"
+    },
+    {
       "id": 1774991301997,
       "description": "Payment",
       "amount": 688.28,
