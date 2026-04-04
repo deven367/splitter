@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1775331355380,
+      "description": "Sams Eggs (04/03/26)",
+      "amount": 4.64,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 4.64
+      },
+      "date": "2026-04-04T19:35:55.380Z"
+    },
+    {
       "id": 1775144729134,
       "description": "Kroger water (03/30)",
       "amount": 2.79,
