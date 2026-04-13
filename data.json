@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1776093376885,
+      "description": "Laundry (comforter washing)",
+      "amount": 26,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 13,
+        "Rahul": 13
+      },
+      "date": "2026-04-13T15:16:16.885Z"
+    },
+    {
       "id": 1776093300879,
       "description": "Subway Lunch 04/12",
       "amount": 8.64,
