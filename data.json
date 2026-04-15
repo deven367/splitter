@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1776268860608,
+      "description": "Electricity- March",
+      "amount": 145.59,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 72.78999999999999,
+        "Rahul": 72.8
+      },
+      "date": "2026-04-15T16:01:00.608Z"
+    },
+    {
       "id": 1776093376885,
       "description": "Laundry (comforter washing)",
       "amount": 26,
