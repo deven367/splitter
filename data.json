@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1776958440718,
+      "description": "Sams club (eggs + granola) (04/21/26)",
+      "amount": 14.65,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 14.65
+      },
+      "date": "2026-04-23T15:34:00.718Z"
+    },
+    {
       "id": 1776268860608,
       "description": "Electricity- March",
       "amount": 145.59,
