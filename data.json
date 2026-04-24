@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1777057532280,
+      "description": "Water (April)",
+      "amount": 74.25,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 37.120000000000005,
+        "Rahul": 37.13
+      },
+      "date": "2026-04-24T19:05:32.280Z"
+    },
+    {
       "id": 1776958571818,
       "description": "Sams (04/21) (grapes + frozen fruit) common",
       "amount": 22.65,
