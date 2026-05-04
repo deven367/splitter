@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1777937520456,
+      "description": "Kroger (Common) (05/03/27)",
+      "amount": 9.09,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 4.54,
+        "Deven": 4.55
+      },
+      "date": "2026-05-04T23:32:00.456Z"
+    },
+    {
       "id": 1777937049584,
       "description": "Kroger Water (04/29/27)",
       "amount": 2.79,
