@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1777935112479,
+      "description": "Kroger (Mandarins) (04/07/27)",
+      "amount": 2.99,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 2.99
+      },
+      "date": "2026-05-04T22:51:52.479Z"
+    },
+    {
       "id": 1777934624264,
       "description": "Walmart Common (04/12/27)",
       "amount": 27,
