@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1777934624264,
+      "description": "Walmart Common (04/12/27)",
+      "amount": 27,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 13.5,
+        "Deven": 13.5
+      },
+      "date": "2026-05-04T22:43:44.264Z"
+    },
+    {
       "id": 1777934480252,
       "description": "Walmart (04/12/27)",
       "amount": 28,
