@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1777935291673,
+      "description": "Kroger (Common) (04/12/27)",
+      "amount": 7.15,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 3.5700000000000003,
+        "Deven": 3.58
+      },
+      "date": "2026-05-04T22:54:51.673Z"
+    },
+    {
       "id": 1777935139988,
       "description": "Kroger (Common) (04/07/27)",
       "amount": 9.91,
