@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1778791703230,
+      "description": "Electricity May",
+      "amount": 106.34,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 53.17,
+        "Rahul": 53.17
+      },
+      "date": "2026-05-14T20:48:23.230Z"
+    },
+    {
       "id": 1778377605314,
       "description": "Sam's eggs 05/05/26",
       "amount": 3.74,
