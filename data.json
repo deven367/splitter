@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1779697510660,
+      "description": "Rent",
+      "amount": 1093.2,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 546.6,
+        "Rahul": 546.6
+      },
+      "date": "2026-05-25T08:25:10.660Z"
+    },
+    {
       "id": 1779696896947,
       "description": "Wifi (May)",
       "amount": 46.05,
