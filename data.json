@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1783524750034,
+      "description": "Sam's Chicken",
+      "amount": 5.17,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 5.17
+      },
+      "date": "2026-07-08T15:32:30.034Z"
+    },
+    {
       "id": 1783203364511,
       "description": "Payment",
       "amount": 562.5,
