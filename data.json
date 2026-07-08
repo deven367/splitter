@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1783524922218,
+      "description": "Sam's Common (milk+bananas)",
+      "amount": 5.88,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 2.94,
+        "Deven": 2.94
+      },
+      "date": "2026-07-08T15:35:22.218Z"
+    },
+    {
       "id": 1783524885089,
       "description": "Sam's Rahul (eggs, granola, apples, spring mix)",
       "amount": 27.86,
