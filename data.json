@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1783959304224,
+      "description": "Splitwise balance",
+      "amount": 30,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 30
+      },
+      "date": "2026-07-13T16:15:04.224Z"
+    },
+    {
       "id": 1783909913617,
       "description": "Kroger Common (07/12/26)",
       "amount": 8.85,
