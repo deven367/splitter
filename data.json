@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1783909850101,
+      "description": "Garlic poweder + paprika",
+      "amount": 2.58,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 1.29,
+        "Rahul": 1.29
+      },
+      "date": "2026-07-13T02:30:50.101Z"
+    },
+    {
       "id": 1783524922218,
       "description": "Sam's Common (milk+bananas)",
       "amount": 5.88,
