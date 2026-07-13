@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1783909913617,
+      "description": "Kroger Common (07/12/26)",
+      "amount": 8.85,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 4.42,
+        "Rahul": 4.43
+      },
+      "date": "2026-07-13T02:31:53.617Z"
+    },
+    {
       "id": 1783909850101,
       "description": "Garlic poweder + paprika",
       "amount": 2.58,
