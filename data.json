@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1784815187338,
+      "description": "Wifi (July)",
+      "amount": 46.05,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 23.02,
+        "Rahul": 23.03
+      },
+      "date": "2026-07-23T13:59:47.338Z"
+    },
+    {
       "id": 1784137636657,
       "description": "Electricity July",
       "amount": 113.5,
