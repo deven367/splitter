@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1785166842231,
+      "description": "Kroger (Milk + spray oil) 07/26",
+      "amount": 6.98,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 3.49,
+        "Rahul": 3.49
+      },
+      "date": "2026-07-27T15:40:42.231Z"
+    },
+    {
       "id": 1785166534597,
       "description": "Kroger (paper towels, ginger, edemame)",
       "amount": 11.03,
