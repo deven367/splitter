@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1785179034323,
+      "description": "muffins",
+      "amount": 1.6,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 0.8,
+        "Rahul": 0.8
+      },
+      "date": "2026-07-27T19:03:54.323Z"
+    },
+    {
       "id": 1785166842231,
       "description": "Kroger (Milk + spray oil) 07/26",
       "amount": 6.98,
