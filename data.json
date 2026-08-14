@@ -5,6 +5,20 @@
   ],
   "expenses": [
     {
+      "id": 1786715901685,
+      "description": "Payment",
+      "amount": 726.52,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 726.52
+      },
+      "date": "2026-08-14T13:58:21.685Z",
+      "type": "payment"
+    },
+    {
       "id": 1785617477569,
       "description": "Home insurance",
       "amount": 128.74,
