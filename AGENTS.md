@@ -100,6 +100,10 @@ Keep group validation and filename generation centralized in `src/utils/helpers.
 - Preserve the Vite `base: '/splitter/'` setting unless deployment itself is being changed.
 - Update `README.md` when commands, setup, architecture, or user-visible behavior changes.
 
+## Tracked Improvements
+
+`IMPROVEMENTS.md` is the prioritized implementation backlog and handoff record. Before starting non-trivial cleanup or bug-fix work, read it for known defects, dependencies, acceptance criteria, and current verification status. Update the relevant item in the same commit that implements it; do not silently remove unfinished items.
+
 ## Verification
 
 Choose checks that exercise the changed surface:
