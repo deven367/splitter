@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789495363820,
+      "description": "Electricity",
+      "amount": 125.8,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 62.9,
+        "Rahul": 62.9
+      },
+      "date": "2026-09-15T18:02:43.820Z"
+    },
+    {
       "id": 1789404632218,
       "description": "Kroger common (09/06) (onion, tomatoes, potatoes, milk)",
       "amount": 10.69,
