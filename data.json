@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1789495376818,
+      "description": "Parking permit",
+      "amount": 41.9,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 41.9
+      },
+      "date": "2026-09-15T18:02:56.818Z"
+    },
+    {
       "id": 1789495363820,
       "description": "Electricity",
       "amount": 125.8,
