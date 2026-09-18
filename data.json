@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789695404151,
+      "description": "sams shipping",
+      "amount": 11.83,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 5.91,
+        "Deven": 5.92
+      },
+      "date": "2026-09-18T01:36:44.151Z"
+    },
+    {
       "id": 1789695378127,
       "description": "sams cleanser + tax",
       "amount": 17.96,
