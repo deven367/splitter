@@ -94,16 +94,16 @@
     },
     {
       "id": 1789695450696,
-      "description": "sams rice (sona masoori + basmati)",
-      "amount": 37.96,
+      "description": "sams rice (sona masoori)",
+      "amount": 17.98,
       "paidBy": "Deven",
       "splitBetween": [
         "Rahul",
         "Deven"
       ],
       "splits": {
-        "Rahul": 18.98,
-        "Deven": 18.98
+        "Rahul": 8.99,
+        "Deven": 8.99
       },
       "date": "2026-09-18T01:37:30.696Z"
     },
