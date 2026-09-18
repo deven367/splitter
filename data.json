@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1789695826950,
+      "description": "Apna bazaar samosa",
+      "amount": 1.99,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 1.99
+      },
+      "date": "2026-09-18T01:43:46.950Z"
+    },
+    {
       "id": 1789695807902,
       "description": "Apna bazaar (chillies) (09/08)",
       "amount": 1.23,
