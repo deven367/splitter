@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789695658111,
+      "description": "Water (Sept)",
+      "amount": 62.85,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 31.419999999999998,
+        "Deven": 31.43
+      },
+      "date": "2026-09-18T01:40:58.111Z"
+    },
+    {
       "id": 1789695541364,
       "description": "Wifi (Sept)",
       "amount": 86.05,
