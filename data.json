@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789696275216,
+      "description": "Walmart (garlic + milk) 09/07",
+      "amount": 3.56,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 1.78,
+        "Deven": 1.78
+      },
+      "date": "2026-09-18T01:51:15.216Z"
+    },
+    {
       "id": 1789695826950,
       "description": "Apna bazaar samosa",
       "amount": 1.99,
