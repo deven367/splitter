@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789695450696,
+      "description": "sams rice (sona masoori + basmati)",
+      "amount": 37.96,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 18.98,
+        "Deven": 18.98
+      },
+      "date": "2026-09-18T01:37:30.696Z"
+    },
+    {
       "id": 1789695404151,
       "description": "sams shipping",
       "amount": 11.83,
