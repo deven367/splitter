@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789695541364,
+      "description": "Wifi (Sept)",
+      "amount": 86.05,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 43.02,
+        "Deven": 43.03
+      },
+      "date": "2026-09-18T01:39:01.364Z"
+    },
+    {
       "id": 1789695450696,
       "description": "sams rice (sona masoori + basmati)",
       "amount": 37.96,
