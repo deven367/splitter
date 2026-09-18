@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789696431730,
+      "description": "Walmart common (09/13) (onion, tomatoes, milk, gloves)",
+      "amount": 9.15,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 4.57,
+        "Deven": 4.58
+      },
+      "date": "2026-09-18T01:53:51.730Z"
+    },
+    {
       "id": 1789696275216,
       "description": "Walmart (garlic + milk) 09/07",
       "amount": 3.56,
