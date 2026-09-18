@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1789695378127,
+      "description": "sams cleanser + tax",
+      "amount": 17.96,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 17.96
+      },
+      "date": "2026-09-18T01:36:18.127Z"
+    },
+    {
       "id": 1789495376818,
       "description": "Parking permit",
       "amount": 41.9,
