@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1789912740838,
+      "description": "Splitwise balance",
+      "amount": 13.92,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 13.92
+      },
+      "date": "2026-09-20T13:59:00.838Z"
+    },
+    {
       "id": 1789696431730,
       "description": "Walmart common (09/13) (onion, tomatoes, milk, gloves)",
       "amount": 9.15,
