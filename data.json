@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789999714485,
+      "description": "sams cash",
+      "amount": 34,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 17,
+        "Rahul": 17
+      },
+      "date": "2026-09-21T14:08:34.485Z"
+    },
+    {
       "id": 1789912740838,
       "description": "Splitwise balance",
       "amount": 13.92,
