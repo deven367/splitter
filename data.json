@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1789999728775,
+      "description": "sams membership",
+      "amount": 60,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 30,
+        "Rahul": 30
+      },
+      "date": "2026-09-21T14:08:48.775Z"
+    },
+    {
       "id": 1789999714485,
       "description": "sams cash",
       "amount": 34,
