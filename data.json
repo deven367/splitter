@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1790115336452,
+      "description": "Cheese curds",
+      "amount": 7.5,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 7.5
+      },
+      "date": "2026-09-22T22:15:36.452Z"
+    },
+    {
       "id": 1789999728775,
       "description": "sams membership",
       "amount": 60,
