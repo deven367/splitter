@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1790690210416,
+      "description": "Costco protein",
+      "amount": 89.99,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 89.99
+      },
+      "date": "2026-09-29T13:56:50.416Z"
+    },
+    {
       "id": 1790603144876,
       "description": "Rent",
       "amount": 1093.2,
