@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1790782483104,
+      "description": "Kroger Water (09/16)",
+      "amount": 2.79,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 1.39,
+        "Rahul": 1.4
+      },
+      "date": "2026-09-30T15:34:43.104Z"
+    },
+    {
       "id": 1790690210416,
       "description": "Costco protein",
       "amount": 89.99,
