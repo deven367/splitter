@@ -5,6 +5,20 @@
   ],
   "expenses": [
     {
+      "id": 1790822289420,
+      "description": "Payment",
+      "amount": 625.77,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 625.77
+      },
+      "date": "2026-10-01T02:38:09.420Z",
+      "type": "payment"
+    },
+    {
       "id": 1790782483104,
       "description": "Kroger Water (09/16)",
       "amount": 2.79,
