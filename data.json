@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1790951519239,
+      "description": "Milk (09/22)",
+      "amount": 2.99,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 1.49,
+        "Rahul": 1.5
+      },
+      "date": "2026-10-02T14:31:59.239Z"
+    },
+    {
       "id": 1790822289420,
       "description": "Payment",
       "amount": 625.77,
