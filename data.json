@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1790951558247,
+      "description": "Ginger Garlic (common) (09/29)",
+      "amount": 2.92,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 1.46,
+        "Rahul": 1.46
+      },
+      "date": "2026-10-02T14:32:38.247Z"
+    },
+    {
       "id": 1790951519239,
       "description": "Milk (09/22)",
       "amount": 2.99,
