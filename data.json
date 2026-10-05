@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1791211610214,
+      "description": "Coconut milk (walmart) (10/04)",
+      "amount": 4,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 4
+      },
+      "date": "2026-10-05T14:46:50.214Z"
+    },
+    {
       "id": 1791211581051,
       "description": "walmart common (10/04)",
       "amount": 15.41,
