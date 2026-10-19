@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1792432035512,
+      "description": "Sams eggs",
+      "amount": 4.82,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 4.82
+      },
+      "date": "2026-10-19T17:47:15.512Z"
+    },
+    {
       "id": 1792431980295,
       "description": "Water (Oct)",
       "amount": 62.85,
