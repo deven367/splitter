@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1792432122006,
+      "description": "Walmart common 10/19 (milk, bananas, onions, garlic powder)",
+      "amount": 8.94,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 4.47,
+        "Deven": 4.47
+      },
+      "date": "2026-10-19T17:48:42.006Z"
+    },
+    {
       "id": 1792432035512,
       "description": "Sams eggs",
       "amount": 4.82,
