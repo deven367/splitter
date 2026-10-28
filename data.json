@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1793216152308,
+      "description": "Kroger common (10/26) (onions, bananas, milk, italian seasoning)",
+      "amount": 10.25,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 5.12,
+        "Deven": 5.13
+      },
+      "date": "2026-10-28T19:35:52.308Z"
+    },
+    {
       "id": 1793215860627,
       "description": "Pending balance from Splitwise",
       "amount": 8.35,
