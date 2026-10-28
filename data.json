@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1793189991780,
+      "description": "Dill",
+      "amount": 4.49,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 4.49
+      },
+      "date": "2026-10-28T12:19:51.780Z"
+    },
+    {
       "id": 1792508912175,
       "description": "Rent",
       "amount": 1093.2,
