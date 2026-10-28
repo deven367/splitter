@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1793216261451,
+      "description": "Kroger Butter 10/27",
+      "amount": 3.09,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 3.09
+      },
+      "date": "2026-10-28T19:37:41.451Z"
+    },
+    {
       "id": 1793216152308,
       "description": "Kroger common (10/26) (onions, bananas, milk, italian seasoning)",
       "amount": 10.25,
