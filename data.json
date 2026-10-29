@@ -5,6 +5,20 @@
   ],
   "expenses": [
     {
+      "id": 1793301614844,
+      "description": "Payment",
+      "amount": 571.54,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven"
+      ],
+      "splits": {
+        "Deven": 571.54
+      },
+      "date": "2026-10-29T19:20:14.844Z",
+      "type": "payment"
+    },
+    {
       "id": 1793216261451,
       "description": "Kroger Butter 10/27",
       "amount": 3.09,
