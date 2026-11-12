@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1794491479958,
+      "description": "Electricity",
+      "amount": 106.54,
+      "paidBy": "Rahul",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 53.27,
+        "Rahul": 53.27
+      },
+      "date": "2026-11-12T13:51:19.958Z"
+    },
+    {
       "id": 1793301614844,
       "description": "Payment",
       "amount": 571.54,
