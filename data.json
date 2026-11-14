@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1794682299060,
+      "description": "Kroger (11/06) (bananas, milk, onions, tomatoes)",
+      "amount": 9.64,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 4.82,
+        "Rahul": 4.82
+      },
+      "date": "2026-11-14T18:51:39.060Z"
+    },
+    {
       "id": 1794491511094,
       "description": "Pizza deangelo",
       "amount": 18.5,
