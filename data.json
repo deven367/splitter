@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1794682341056,
+      "description": "Kroger Sriracha",
+      "amount": 5.99,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 2.99,
+        "Rahul": 3
+      },
+      "date": "2026-11-14T18:52:21.056Z"
+    },
+    {
       "id": 1794682299060,
       "description": "Kroger (11/06) (bananas, milk, onions, tomatoes)",
       "amount": 9.64,
