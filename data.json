@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1794682367792,
+      "description": "Wifi Nov",
+      "amount": 56.05,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Deven",
+        "Rahul"
+      ],
+      "splits": {
+        "Deven": 28.02,
+        "Rahul": 28.03
+      },
+      "date": "2026-11-14T18:52:47.792Z"
+    },
+    {
       "id": 1794682341056,
       "description": "Kroger Sriracha",
       "amount": 5.99,
