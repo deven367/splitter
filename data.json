@@ -5,6 +5,21 @@
   ],
   "expenses": [
     {
+      "id": 1794927129089,
+      "description": "Kroger 11/08 Milk",
+      "amount": 1.99,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul",
+        "Deven"
+      ],
+      "splits": {
+        "Rahul": 0.99,
+        "Deven": 1
+      },
+      "date": "2026-11-17T14:52:09.089Z"
+    },
+    {
       "id": 1794682367792,
       "description": "Wifi Nov",
       "amount": 56.05,
