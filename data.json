@@ -5,6 +5,19 @@
   ],
   "expenses": [
     {
+      "id": 1794927635536,
+      "description": "Balance from Splitwise",
+      "amount": 34.56,
+      "paidBy": "Deven",
+      "splitBetween": [
+        "Rahul"
+      ],
+      "splits": {
+        "Rahul": 34.56
+      },
+      "date": "2026-11-17T15:00:35.536Z"
+    },
+    {
       "id": 1794927129089,
       "description": "Kroger 11/08 Milk",
       "amount": 1.99,
